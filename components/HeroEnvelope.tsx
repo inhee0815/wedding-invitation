@@ -14,7 +14,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("bgm/main.mp3");
+    audioRef.current = new Audio("../bgm/main.mp3");
     audioRef.current.loop = true;
     audioRef.current.volume = 0.5;
     return () => {
