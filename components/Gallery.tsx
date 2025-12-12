@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Photo } from '../types';
 
 const photos: Photo[] = [
-  { id: 1, url: '../images/together1.jpg', alt: 'Wedding 1' },
+  { id: 1, url: './images/together1.jpg', alt: 'Wedding 1' },
   { id: 2, url: '../images/jongho1.jpg', alt: 'Wedding 2' },
   { id: 3, url: '../images/together2.jpg', alt: 'Wedding 3' },
   { id: 4, url: '../images/inhee1.jpg', alt: 'Wedding 4' },
