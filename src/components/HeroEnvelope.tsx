@@ -14,9 +14,9 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("../bgm/main.mp3");
+    audioRef.current = new Audio("/wedding-invitation/bgm/main.mp3");
     audioRef.current.loop = true;
-    audioRef.current.volume = 0.5;
+    audioRef.current.volume = 0.3;
     return () => {
       if (audioRef.current) audioRef.current.pause();
     };
@@ -142,19 +142,11 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           style={{ opacity: textOpacity, y: textY }}
           className="absolute top-0 w-full h-[40%] z-20 flex flex-col items-center justify-center pt-10"
         >
-          <div className="w-10 h-10 mb-4 text-wood-800 opacity-80">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-              <path d="M12 21v-8a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v8" />
-              <path d="M12 11a2 2 0 0 0-2 2v8" />
-              <path d="M8 21h8" />
-              <path d="M12 3a2 2 0 0 1 2 2c0 2-2 3-2 3s-2-1-2-3a2 2 0 0 1 2-2z" fill="#D97706" stroke="none" />
-            </svg>
-          </div>
-          <p className="font-serif text-wood-800 text-sm tracking-widest mb-2">Wedding Invitation</p>
+          <p className="font-serif text-wood-800 text-sm tracking-widest mt-2 mb-2">Wedding Invitation</p>
           <h1 className="font-hand text-2xl text-wood-900">
             이종호 <span className="text-sm mx-1">&</span> 김인희
           </h1>
-          <p className="mt-4 text-xs text-stone-400 font-sans">2026.04.26.SUN</p>
+          <p className="mt-4 text-xs text-wood-400 font-sans">2026.04.26.SUN</p>
         </motion.div>
 
 
@@ -185,15 +177,6 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
             </div>
           </div>
         </motion.div>
-
-        {/* Floating Mute/Unmute Button */}
-        <button
-          onClick={togglePlay}
-          className="absolute top-6 right-6 z-50 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm text-stone-500"
-        >
-          {isPlaying ? <Volume2 size={18} /> : <VolumeX size={18} />}
-        </button>
-
       </div>
     </div>
   );

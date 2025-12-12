@@ -12,12 +12,12 @@ const ContactGroup: React.FC<ContactGroupProps> = ({ title, people }) => {
 
   return (
     <div className="border border-stone-200 rounded-lg overflow-hidden bg-white mb-4">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full px-5 py-4 flex justify-between items-center bg-stone-50 hover:bg-stone-100 transition-colors"
       >
         <span className="font-serif text-wood-900 font-medium">{title} 측 연락처</span>
-        {isOpen ? <ChevronUp size={18} className="text-stone-400"/> : <ChevronDown size={18} className="text-stone-400"/>}
+        {isOpen ? <ChevronUp size={18} className="text-stone-400" /> : <ChevronDown size={18} className="text-stone-400" />}
       </button>
       <AnimatePresence>
         {isOpen && (
@@ -61,21 +61,21 @@ const Contact: React.FC = () => {
       </div>
 
       <div className="max-w-md mx-auto">
-        <ContactGroup 
-          title="신랑" 
+        <ContactGroup
+          title="신랑"
           people={[
-            { name: "이종호", role: "신랑", phone: "010-0000-0000" },
-            { name: "김판수", role: "아버지", phone: "010-0000-0000" },
-            { name: "이영자", role: "어머니", phone: "010-0000-0000" }
-          ]} 
+            { name: "이종호", role: "신랑", phone: "010-2087-8630" },
+            { name: "이우홍", role: "아버지", phone: "010-0000-0000" },
+            { name: "이현주", role: "어머니", phone: "010-0000-0000" }
+          ]}
         />
-        <ContactGroup 
-          title="신부" 
+        <ContactGroup
+          title="신부"
           people={[
-            { name: "김인희", role: "신부", phone: "010-0000-0000" },
-            { name: "박명훈", role: "아버지", phone: "010-0000-0000" },
-            { name: "최수진", role: "어머니", phone: "010-0000-0000" }
-          ]} 
+            { name: "김인희", role: "신부", phone: "010-5006-7909" },
+            { name: "김수원", role: "아버지", phone: "010-0000-0000" },
+            { name: "윤영미", role: "어머니", phone: "010-0000-0000" }
+          ]}
         />
       </div>
     </section>

@@ -23,10 +23,10 @@ const InvitationText: React.FC = () => {
 
         <div className="mt-12 space-y-2 font-sans text-stone-700">
           <p>
-            <span className="font-medium text-lg">김판수 · 이영자</span> 의 장남 <span className="font-bold text-xl ml-2">종호</span>
+            <span className="font-medium text-lg">이우홍 · 이현주</span> 의 아들 <span className="font-bold text-xl ml-2">종호</span>
           </p>
           <p>
-            <span className="font-medium text-lg">박명훈 · 최수진</span> 의 장녀 <span className="font-bold text-xl ml-2">인희</span>
+            <span className="font-medium text-lg">김수원 · 윤영미</span> 의 딸 <span className="font-bold text-xl ml-2">인희</span>
           </p>
         </div>
       </div>
