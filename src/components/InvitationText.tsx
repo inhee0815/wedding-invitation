@@ -21,13 +21,36 @@ const InvitationText: React.FC = () => {
           더없는 기쁨으로 간직하겠습니다.
         </p>
 
-        <div className="mt-12 space-y-2 font-sans text-stone-700">
-          <p>
-            <span className="font-medium text-lg">이우홍 · 이현주</span> 의 아들 <span className="font-bold text-xl ml-2">종호</span>
-          </p>
-          <p>
-            <span className="font-medium text-lg">김수원 · 윤영미</span> 의 딸 <span className="font-bold text-xl ml-2">인희</span>
-          </p>
+        <div className="mt-12 grid grid-cols-[auto_auto_auto_auto] gap-x-1 gap-y-4 items-center justify-center font-sans text-stone-700">
+
+          {/* Groom Side */}
+          <div className="text-right font-medium text-lg whitespace-nowrap">
+            이우홍 · 이현주
+          </div>
+          <div className="text-left whitespace-nowrap">
+            의
+          </div>
+          <div className="text-center whitespace-nowrap w-8">
+            아들
+          </div>
+          <div className="text-left font-bold text-xl whitespace-nowrap pl-1">
+            종호
+          </div>
+
+          {/* Bride Side */}
+          <div className="text-right font-medium text-lg whitespace-nowrap">
+            김수원 · 윤영미
+          </div>
+          <div className="text-left whitespace-nowrap">
+            의
+          </div>
+          <div className="text-center whitespace-nowrap w-8">
+            딸
+          </div>
+          <div className="text-left font-bold text-xl whitespace-nowrap pl-1">
+            인희
+          </div>
+
         </div>
       </div>
     </motion.section>

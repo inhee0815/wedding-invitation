@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GuestbookEntry } from '../types';
 import { getGuestbookEntries, addGuestbookEntry } from '../services/storage';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cloud } from 'lucide-react';
+import { ChevronDown, Cloud } from 'lucide-react';
 
 const Guestbook: React.FC = () => {
   const [entries, setEntries] = useState<GuestbookEntry[]>([]);
@@ -10,6 +10,7 @@ const Guestbook: React.FC = () => {
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(10);
 
   useEffect(() => {
     const loadData = async () => {
@@ -49,6 +50,11 @@ const Guestbook: React.FC = () => {
     }
   };
 
+  const handleShowMore = () => {
+    setVisibleCount((prev) => prev + 3);
+  };
+
+
   const formatDate = (isoString: string) => {
     try {
       if (!isoString) return '';
@@ -63,9 +69,8 @@ const Guestbook: React.FC = () => {
       <div className="max-w-md mx-auto">
         <div className="flex flex-col items-center mb-8">
           <span className="text-wood-800 text-sm tracking-widest font-serif border-b border-wood-300 pb-1">GUESTBOOK</span>
-          <div className="flex items-center gap-1 mt-2 text-[10px] text-wood-800/50">
-            <Cloud size={10} />
-            <span>Saved to Cloud</span>
+          <div className="flex items-center gap-1 mt-4 text-xs text-stone-500">
+            <span>방명록</span>
           </div>
         </div>
 
@@ -107,7 +112,7 @@ const Guestbook: React.FC = () => {
             </div>
           ) : (
             <AnimatePresence>
-              {(entries || []).slice(0, 10).map((entry) => (
+              {(entries || []).slice(0, visibleCount).map((entry) => (
                 <motion.li
                   key={entry.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -117,7 +122,7 @@ const Guestbook: React.FC = () => {
                 >
                   <div className="flex justify-between items-baseline mb-2">
                     <span className="font-bold text-wood-900 text-sm">{entry.name}</span>
-                    <span className="text-[10px] text-stone-400">{formatDate(entry.date)}</span>
+                    <span className="text-[12px] text-stone-400">{formatDate(entry.date)}</span>
                   </div>
                   <p className="text-stone-600 text-sm whitespace-pre-wrap leading-relaxed font-hand">{entry.message}</p>
                 </motion.li>
@@ -125,9 +130,12 @@ const Guestbook: React.FC = () => {
             </AnimatePresence>
           )}
         </ul>
-        {!isLoading && (entries || []).length > 10 && (
+        {!isLoading && (entries || []).length > visibleCount && (
           <div className="text-center mt-6">
-            <button className="text-xs text-stone-500 underline decoration-stone-300">더보기</button>
+            <button onClick={handleShowMore} className="w-full py-3 text-stone-600 rounded-lg text-sm font-medium hover:bg-stone-100 transition-colors flex items-center justify-center gap-1"
+            >
+              더보기 <ChevronDown size={14} />
+            </button>
           </div>
         )}
       </div>

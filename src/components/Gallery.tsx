@@ -103,7 +103,7 @@ const Gallery: React.FC = () => {
     <section className="py-16 bg-white">
       <div className="px-6 mb-8 text-center">
         <span className="text-wood-800 text-sm tracking-widest font-serif border-b border-wood-300 pb-1">GALLERY</span>
-        <p className="mt-2 text-stone-400 text-xs">순간의 기록들</p>
+        <p className="mt-4 text-stone-500 text-xs">순간의 기록들</p>
       </div>
 
       {/* Grid Layout */}

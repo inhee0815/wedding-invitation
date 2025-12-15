@@ -42,7 +42,7 @@ const Countdown: React.FC<{ targetDate: string }> = ({ targetDate }) => {
     <div className="py-20 bg-paper text-center">
       <h4 className="font-serif text-3xl text-wood-900 mb-6 font-bold">{dDay}</h4>
       <div className="text-stone-500 mb-10 text-sm">
-        2026. 04. 26. SUN 13:50 PM
+        2026년 4월 26일 일요일 오후 1시 50분
       </div>
 
       <div className="flex justify-center gap-4 text-wood-800">

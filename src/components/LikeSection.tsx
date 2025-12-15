@@ -26,7 +26,7 @@ const LikeSection: React.FC = () => {
     setLikes(prev => prev + 1);
 
     // Add Particles - Increased count and spread
-    const emojis = ['❤️', '❤️', '❤️', '❤️', '🤵', '👰', '🎉', '✨'];
+    const emojis = ['💚', '💚', '❤️', '❤️', '🤵', '👰', '🎉', '✨'];
     const newParticles: Particle[] = Array.from({ length: 15 }).map((_, i) => ({
       id: Date.now() + i,
       // Wide spread on X axis (-150px to 150px)
@@ -53,10 +53,10 @@ const LikeSection: React.FC = () => {
 
   return (
     // Removed overflow-hidden so particles can fly outside the section
-    <div className="py-16 bg-white flex flex-col items-center justify-center border-t border-b border-stone-100 relative z-10">
+    <div className="py-16 bg-white flex flex-col items-center justify-center relative z-10">
       <div className="text-center mb-8 relative z-10">
         <span className="text-wood-800 text-sm tracking-widest font-serif border-b border-wood-300 pb-1">CELEBRATE</span>
-        <p className="mt-2 text-stone-400 text-xs">두 사람의 앞날을 축복해주세요</p>
+        <p className="mt-4 text-stone-500 text-xs">두 사람의 앞날을 축복해주세요</p>
       </div>
 
       <div className="relative">
@@ -99,7 +99,7 @@ const LikeSection: React.FC = () => {
         <p className="text-3xl font-serif text-wood-900 font-bold tabular-nums">
           {likes.toLocaleString()}
         </p>
-        <p className="text-stone-500 text-xs mt-1">분이 축하해주셨습니다</p>
+        <p className="text-stone-500 text-xs mt-2">분이 축하해주셨습니다</p>
       </div>
     </div>
   );
