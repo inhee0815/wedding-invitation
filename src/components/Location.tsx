@@ -19,6 +19,8 @@ const Location: React.FC = () => {
   const address = "경기 성남시 수정구 성남대로 1342 (태평동 650)";
 
   const [copied, setCopied] = useState(false);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+
 
   const mapContainerRef = useRef(null);
 
@@ -87,6 +89,7 @@ const Location: React.FC = () => {
           position: markerPosition
         });
         marker.setMap(map);
+        setIsMapLoaded(true);
       });
 
     } else {
@@ -116,18 +119,27 @@ const Location: React.FC = () => {
           <div
             ref={mapContainerRef}
             style={{ width: '100%', height: '100%' }} // 부모 aspect-video에 맞추기 위해 100% 설정
-          >
-            <a
-              href={mapUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute inset-0 flex items-center justify-center bg-black/5 hover:bg-black/10 transition-colors z-10"
-            >
-              <div className="bg-white/90 backdrop-blur px-6 py-3 rounded-full shadow-sm flex items-center gap-2 text-sm text-wedding-accent font-medium">
-                <MapPin size={16} /> 카카오맵으로 보기
-              </div>
-            </a>
-          </div>
+          />
+          {/* Fallback Overlay: Only rendered if map is NOT loaded */}
+          {!isMapLoaded && (
+            <div className="absolute inset-0">
+              <img
+                src="https://picsum.photos/800/400?blur=2"
+                className="w-full h-full object-cover opacity-50 absolute inset-0"
+                alt="Map Preview"
+              />
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-0 flex items-center justify-center bg-black/5 hover:bg-black/10 transition-colors z-10"
+              >
+                <div className="bg-white/90 backdrop-blur px-6 py-3 rounded-full shadow-sm flex items-center gap-2 text-sm text-wood-900 font-medium">
+                  <MapPin size={16} /> 카카오맵으로 보기
+                </div>
+              </a>
+            </div>
+          )}
         </div>
         {/* Navigation Links Section */}
         <div className="max-w-md mx-auto mb-4 text-sm bg-white p-6 rounded-lg shadow-sm border border-stone-100">
