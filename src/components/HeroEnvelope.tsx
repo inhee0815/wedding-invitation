@@ -121,7 +121,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           className="absolute z-10 overflow-hidden shadow-2xl origin-center bg-gray-200"
         >
           <img
-            src="images/gallery10.webp" // WebP 권장
+            src="images/main1.jpg" // WebP 권장
             alt="Wedding Couple"
             className="w-full h-full object-cover"
             fetchpriority="high" // 우선순위 상향
@@ -156,15 +156,14 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           style={{ y: envelopeY, opacity: envelopeOpacity }}
           className="absolute bottom-0 w-full h-[40%] z-30 pointer-events-none"
         >
-          {/* V-Shape SVG mask */}
           <div className="w-full h-full relative">
-            <svg
-              viewBox="0 0 400 300"
-              preserveAspectRatio="none"
-              className="absolute bottom-0 w-full h-full drop-shadow-[0_-10px_20px_rgba(0,0,0,0.1)] text-paper"
-            >
-              <path d="M0,0 L200,100 L400,0 L400,300 L0,300 Z" fill="currentColor" />
-            </svg>
+            {/* SVG 대신 이미지를 사용 */}
+            <img
+              src="images/envelope.png"
+              alt="봉투 앞면"
+              className="absolute bottom-0 w-full h-auto drop-shadow-lg" // 그림자도 이미지에 포함시키면 더 좋습니다!
+              style={{ willChange: "transform" }} // 하드웨어 가속 강제
+            />
 
             {/* Decorative Scroll Hint */}
             <div className="absolute bottom-12 w-full text-center flex flex-col items-center justify-end pb-8">
