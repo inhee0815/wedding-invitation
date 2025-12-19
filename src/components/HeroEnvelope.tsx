@@ -121,7 +121,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           className="absolute z-10 overflow-hidden shadow-2xl origin-center bg-gray-200"
         >
           <img
-            src="images/main1.jpg" // WebP 권장
+            src="images/gallery10.webp" // WebP 권장
             alt="Wedding Couple"
             className="w-full h-full object-cover"
             fetchpriority="high" // 우선순위 상향
