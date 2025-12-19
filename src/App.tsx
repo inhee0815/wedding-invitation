@@ -25,7 +25,7 @@ const App: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("/wedding-invitation/bgm/main.mp3");
+    audioRef.current = new Audio("/bgm/main.mp3");
     audioRef.current.loop = true;
     audioRef.current.volume = 0.3;
     return () => {
