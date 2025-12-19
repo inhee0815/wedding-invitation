@@ -6,7 +6,7 @@ import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
 const photos: Photo[] = [
   { id: 1, url: 'images/together1.jpg', alt: 'Wedding 1' },
-  { id: 2, url: 'images/jongho1.jpg', alt: 'Wedding 2' },
+  { id: 2, url: 'images/gallery18.webp', alt: 'Wedding 2' },
   { id: 3, url: 'images/together2.jpg', alt: 'Wedding 3' },
   { id: 4, url: 'images/inhee1.jpg', alt: 'Wedding 4' },
   { id: 5, url: 'images/gallery11.webp', alt: 'Wedding 5' },
