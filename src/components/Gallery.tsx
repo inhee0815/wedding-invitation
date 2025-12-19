@@ -6,7 +6,7 @@ import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
 const photos: Photo[] = Array.from({ length: 19 }, (_, i) => ({
   id: i + 1,
-  url: `images/gallery${i + 1}.png`,
+  url: `images/gallery${i + 1}.webp`,
   alt: `Wedding Photo ${i + 1}`,
 }));
 
