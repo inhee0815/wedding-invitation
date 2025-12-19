@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import confetti from 'canvas-confetti';
 import { ChevronDown, Volume2, VolumeX } from 'lucide-react';
 
 interface HeroEnvelopeProps {
@@ -13,17 +12,12 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  useEffect(() => {
-    audioRef.current = new Audio("/bgm/main.mp3");
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
-    return () => {
-      if (audioRef.current) audioRef.current.pause();
-    };
-  }, []);
-
   const togglePlay = () => {
-    if (!audioRef.current) return;
+    if (!audioRef.current) {
+      audioRef.current = new Audio("/bgm/main.mp3"); // 클릭 시점에 생성
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.3;
+    }
     if (isPlaying) {
       audioRef.current.pause();
     } else {
@@ -77,7 +71,10 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
     return () => unsubscribe();
   }, [hasOpened, smoothProgress, onOpened]);
 
-  const fireConfetti = () => {
+  const fireConfetti = async () => {
+    // 함수 호출 시점에 라이브러리를 동적으로 불러옵니다.
+    const { default: confetti } = await import('canvas-confetti');
+
     const duration = 2500;
     const end = Date.now() + duration;
 
@@ -121,9 +118,10 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           className="absolute z-10 overflow-hidden shadow-2xl origin-center bg-gray-200"
         >
           <img
-            src="images/main1.jpg"
+            src="images/main1.jpg" // WebP 권장
             alt="Wedding Couple"
             className="w-full h-full object-cover"
+            fetchpriority="high" // 우선순위 상향
           />
 
           {/* Dark gradient overlay */}
