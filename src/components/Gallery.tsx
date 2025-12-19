@@ -4,16 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Photo } from '../types';
 import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
-const photos: Photo[] = Array.from({ length: 18 }, (_, i) => ({
+const photos: Photo[] = Array.from({ length: 9 }, (_, i) => ({
   id: i + 1,
-  url: `images/gallery${i + 2}.webp`,
-  alt: `Wedding Photo ${i + 2}`,
+  url: `images/gallery${i + 9}.webp`,
+  alt: `Wedding Photo ${i + 9}`,
 }));
-
-const getOptimizedUrl = (url: string, width: number) => {
-  // 예: images/gallery1.webp -> images/gallery1.webp?w=400 (설정에 따라 다름)
-  return `${url}?w=${width}&q=auto&f=auto`;
-};
 
 // Helper Component for Individual Lightbox Image
 // Manages its own loading state to prevent global flicker
@@ -118,7 +113,7 @@ const Gallery: React.FC = () => {
             onClick={() => setSelectedPhotoIndex(index)}
           >
             <img
-              src={getOptimizedUrl(photo.url, 100)} // 목록에서는 400px 정도만 로드              alt={photo.alt}
+              src={photo.url}
               loading="lazy"
               decoding="async"
               style={{ aspectRatio: '1 / 1' }}
