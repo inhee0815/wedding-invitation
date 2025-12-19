@@ -1,5 +1,5 @@
 {
-  "name": "wedding-invitation---jongho-&-inhee",
+  "name": "wedding-invitation",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,7 +15,6 @@
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.23.25",
     "lucide-react": "^0.556.0",
-    "netlify-plugin-cloudinary": "^1.17.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },
