@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { memo, useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Photo } from '../types';
 import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
@@ -15,6 +15,27 @@ const photos: Photo[] = [
   { id: 8, url: 'images/inhee2.jpg', alt: 'Wedding 8' },
   { id: 9, url: 'images/together5.jpg', alt: 'Wedding 9' },
 ];
+
+const GalleryItem = memo(({ photo, index, onClick }: { photo: any, index: number, onClick: any }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }} // 화면에 들어왔을 때 딱 한 번만 실행
+      className="aspect-square bg-gray-100 overflow-hidden cursor-pointer"
+      onClick={() => onClick(index)}
+    >
+      <img
+        src={photo.url}
+        alt={photo.alt}
+        loading="lazy"
+        decoding="async"
+        style={{ aspectRatio: '1 / 1', willChange: 'transform' }} // 하드웨어 가속 힌트
+        className="w-full h-full object-cover transition-transform duration-500"
+      />
+    </motion.div>
+  );
+});
 
 // Helper Component for Individual Lightbox Image
 // Manages its own loading state to prevent global flicker
@@ -109,24 +130,7 @@ const Gallery: React.FC = () => {
       {/* Grid Layout */}
       <div className="grid grid-cols-3 gap-2 px-4">
         {photos.map((photo, index) => (
-          <motion.div
-            key={photo.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ margin: "50px" }}
-            transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="aspect-square bg-gray-100 overflow-hidden cursor-pointer"
-            onClick={() => setSelectedPhotoIndex(index)}
-          >
-            <img
-              src={photo.url}
-              loading="lazy"
-              decoding="async"
-              style={{ aspectRatio: '1 / 1' }}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-              onContextMenu={(e) => e.preventDefault()}
-            />
-          </motion.div>
+          <GalleryItem key={photo.id} photo={photo} index={index} onClick={setSelectedPhotoIndex} />
         ))}
       </div>
 
