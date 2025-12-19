@@ -12,12 +12,17 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  useEffect(() => {
+    audioRef.current = new Audio("/bgm/main.mp3");
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.3;
+    return () => {
+      if (audioRef.current) audioRef.current.pause();
+    };
+  }, []);
+
   const togglePlay = () => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio("/bgm/main.mp3"); // 클릭 시점에 생성
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.3;
-    }
+    if (!audioRef.current) return;
     if (isPlaying) {
       audioRef.current.pause();
     } else {
@@ -27,42 +32,40 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   };
 
 
-  // 1. 스크롤 진행도 설정
+  // Reduced height to 150vh to make the text appear immediately after the "opening"
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  // 2. 더 부드러운 관성을 위해 spring 설정 조정 (GSAP의 scrub 느낌)
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  // Stiffer spring for closer tracking to scroll position
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 200, damping: 25 });
+
   // ------------------------------------------------------------------
   // Animation Mappings
   // ------------------------------------------------------------------
-  // 텍스트 페이드 및 위로 이동
-  const textOpacity = useTransform(smoothProgress, [0, 0.15], [1, 0]);
-  const textY = useTransform(smoothProgress, [0, 0.15], [0, -30]);
 
-  // 봉투 앞면 (Pocket) - 단순 Y축 이동
+  // 1. Text Fades Out
+  const textOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
+  const textY = useTransform(smoothProgress, [0, 0.2], [0, -50]);
+
+  // 2. Envelope Front moves DOWN and fades
   const envelopeY = useTransform(smoothProgress, [0.1, 0.4], ["0%", "100%"]);
-  const envelopeOpacity = useTransform(smoothProgress, [0.35, 0.5], [1, 0]);
+  const envelopeOpacity = useTransform(smoothProgress, [0.3, 0.5], [1, 0]);
 
-  // 사진 확장 - Width/Height 대신 Scale과 ClipPath 사용
-  // 0.85 scale에서 1.0으로 부드럽게 확장
-  const photoScale = useTransform(smoothProgress, [0, 0.9], [0.85, 1]);
-  // borderRadius 애니메이션은 성능 저하의 주범이므로 clipPath로 대체하거나 고정 권장
-  const photoClip = useTransform(
-    smoothProgress,
-    [0.8, 1],
-    ["inset(5% 5% 5% 5% round 12px)", "inset(0% 0% 0% 0% round 0px)"]
-  );
+  // 3. Photo Expansion
+  // Mapped to [0, 1] so it completes exactly when the scroll container ends
+  const photoWidth = useTransform(smoothProgress, [0, 1], ["85%", "100%"]);
+  const photoHeight = useTransform(smoothProgress, [0, 1], ["80%", "100%"]);
+  const photoY = useTransform(smoothProgress, [0, 1], ["5%", "0%"]);
+  const photoScale = useTransform(smoothProgress, [0, 1], [0.95, 1]);
+  const photoRadius = useTransform(smoothProgress, [0.8, 1], ["12px", "0px"]);
 
+  // 4. Final Text Overlay
   const overlayOpacity = useTransform(smoothProgress, [0.7, 1], [0, 1]);
 
   useEffect(() => {
+    // Trigger confetti when opened sufficiently
     const unsubscribe = smoothProgress.on("change", (latest) => {
       if (latest > 0.8 && !hasOpened) {
         setHasOpened(true);
@@ -73,41 +76,8 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
     return () => unsubscribe();
   }, [hasOpened, smoothProgress, onOpened]);
 
-  // // 1. Text Fades Out
-  // const textOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
-  // const textY = useTransform(smoothProgress, [0, 0.2], [0, -50]);
-
-  // // 2. Envelope Front moves DOWN and fades
-  // const envelopeY = useTransform(smoothProgress, [0.1, 0.4], ["0%", "100%"]);
-  // const envelopeOpacity = useTransform(smoothProgress, [0.3, 0.5], [1, 0]);
-
-  // // 3. Photo Expansion
-  // // Mapped to [0, 1] so it completes exactly when the scroll container ends
-  // const photoWidth = useTransform(smoothProgress, [0, 1], ["85%", "100%"]);
-  // const photoHeight = useTransform(smoothProgress, [0, 1], ["80%", "100%"]);
-  // const photoY = useTransform(smoothProgress, [0, 1], ["5%", "0%"]);
-  // const photoScale = useTransform(smoothProgress, [0, 1], [0.95, 1]);
-  // const photoRadius = useTransform(smoothProgress, [0.8, 1], ["12px", "0px"]);
-
-  // // 4. Final Text Overlay
-  // const overlayOpacity = useTransform(smoothProgress, [0.7, 1], [0, 1]);
-
-  // useEffect(() => {
-  //   // Trigger confetti when opened sufficiently
-  //   const unsubscribe = smoothProgress.on("change", (latest) => {
-  //     if (latest > 0.8 && !hasOpened) {
-  //       setHasOpened(true);
-  //       onOpened();
-  //       fireConfetti();
-  //     }
-  //   });
-  //   return () => unsubscribe();
-  // }, [hasOpened, smoothProgress, onOpened]);
-
   const fireConfetti = async () => {
-    // 함수 호출 시점에 라이브러리를 동적으로 불러옵니다.
     const { default: confetti } = await import('canvas-confetti');
-
     const duration = 2500;
     const end = Date.now() + duration;
 
@@ -139,22 +109,22 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
     <div ref={containerRef} className="h-[120vh] relative w-full bg-paper">
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center">
 
-        {/* --- Layer 1: Photo (Scale 기반 최적화) --- */}
+        {/* --- Layer 1: The Photo --- */}
         <motion.div
           style={{
+            width: photoWidth,
+            height: photoHeight,
+            y: photoY,
             scale: photoScale,
-            clipPath: photoClip,
-            willChange: "transform, clip-path" // GPU 가속 힌트
+            borderRadius: photoRadius
           }}
-          className="absolute z-10 w-full h-full max-w-[90%] max-h-[80%] overflow-hidden shadow-2xl bg-gray-200"
+          className="absolute z-10 overflow-hidden shadow-2xl origin-center bg-gray-200"
         >
           <img
             src="images/main1.jpg" // WebP 권장
             alt="Wedding Couple"
             className="w-full h-full object-cover"
             fetchpriority="high" // 우선순위 상향
-            loading="eager"
-            decoding="async"
           />
 
           {/* Dark gradient overlay */}
