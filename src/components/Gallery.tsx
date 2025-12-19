@@ -12,7 +12,7 @@ const photos: Photo[] = [
   { id: 5, url: 'images/gallery11.webp', alt: 'Wedding 5' },
   { id: 6, url: 'images/gallery3.webp', alt: 'Wedding 6' },
   { id: 7, url: 'images/together3.jpg', alt: 'Wedding 7' },
-  { id: 8, url: 'images/gallery19.webp', alt: 'Wedding 8' },
+  { id: 8, url: 'images/inhee2.jpg', alt: 'Wedding 8' },
   { id: 9, url: 'images/together5.jpg', alt: 'Wedding 9' },
 ];
 
