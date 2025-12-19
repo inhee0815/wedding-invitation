@@ -11,10 +11,11 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.46.0",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.23.25",
-    "@supabase/supabase-js": "^2.46.0",
     "lucide-react": "^0.556.0",
+    "netlify-plugin-cloudinary": "^1.17.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },
