@@ -19,9 +19,9 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
   // Snappy spring for immediate feedback
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 250,
-    damping: 35,
-    mass: 0.5,
+    stiffness: 150,
+    damping: 30,
+    mass: 1,
     restDelta: 0.001
   });
 
@@ -81,16 +81,28 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   };
 
   return (
-    <div ref={containerRef} className="h-[105vh] relative w-full bg-paper">
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center">
+    <div
+      ref={containerRef}
+      className="h-[125vh] relative w-full bg-paper touch-pan-y"
+      style={{ WebkitOverflowScrolling: 'touch' }}
+    >
+      {/* 
+        Optimization: Use 100dvh (Dynamic Viewport Height) for the sticky container.
+        This handles mobile address bars smoothly. 
+      */}
+      <div className="sticky top-0 h-[100dvh] min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center translate-z-0">
 
-        {/* --- Background Decorative Element (The "Inside" of the envelope) --- */}
-        <div className="absolute inset-0 bg-stone-100 z-0" />
+        {/* --- Background --- */}
+        <div className="absolute inset-0 bg-stone-100 z-0 transform-gpu" style={{ transform: 'translateZ(0)' }} />
 
-        {/* --- Layer 1: Initial Floating Text (On the paper background) --- */}
+        {/* --- Layer 1: Initial Floating Text --- */}
         <motion.div
-          style={{ opacity: textOpacity, y: textY }}
-          className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none"
+          style={{
+            opacity: textOpacity,
+            y: textY,
+            translateZ: 0
+          }}
+          className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-12 pointer-events-none transform-gpu"
         >
           <p className="font-hand text-wood-900 text-xs tracking-[0.3em] mb-3 uppercase">the new beginning</p>
           <h1 className="font-hand text-3xl text-wood-900 drop-shadow-sm">
@@ -106,27 +118,27 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
             scale: photoScale,
             y: photoY,
             borderRadius: photoRadius,
-            willChange: "transform",
-            z: 0,
+            translateZ: 0,
+            willChange: "transform, opacity",
             backfaceVisibility: "hidden"
           }}
-          className="absolute z-10 w-full h-full overflow-hidden origin-center bg-stone-200 shadow-2xl"
+          className="absolute z-10 w-full h-full overflow-hidden origin-center bg-stone-200 shadow-2xl transform-gpu"
         >
           <motion.img
             src="images/gallery10.jpg"
             alt="Wedding Couple"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transform-gpu"
             fetchPriority="high"
             style={{
               willChange: "transform",
-              z: 0
+              transform: 'translateZ(0)'
             }}
           />
 
-          {/* Overlay Text (Appears after expansion) */}
+          {/* Overlay Text */}
           <motion.div
             style={{ opacity: overlayOpacity }}
-            className="absolute inset-0 bg-black/30 flex flex-col items-center justify-end pb-24 text-white text-center"
+            className="absolute inset-0 bg-black/30 flex flex-col items-center justify-end pb-24 text-white text-center transform-gpu"
           >
             <h2 className="font-serif text-4xl mb-2 drop-shadow-lg">Jongho & Inhee</h2>
             <p className="font-sans text-sm tracking-[0.2em] opacity-90 drop-shadow-md">2026.04.26 SUN</p>
@@ -139,25 +151,26 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           style={{
             y: envelopeY,
             opacity: envelopeOpacity,
+            translateZ: 0,
             willChange: "transform, opacity"
           }}
-          className="absolute bottom-0 w-full h-[55%] z-30 pointer-events-none"
+          className="absolute bottom-0 w-full h-[55dvh] z-30 pointer-events-none transform-gpu"
         >
           <div className="w-full h-full relative">
-            {/* The actual pocket graphic */}
             <img
               src="images/envelope.png"
               alt="봉투 앞면"
-              className="absolute bottom-0 w-full h-auto drop-shadow-[0_-10px_20px_rgba(0,0,0,0.15)] scale-[1.02]"
-              style={{ willChange: "transform" }}
+              className="absolute bottom-0 w-full h-auto drop-shadow-[0_-10px_20px_rgba(0,0,0,0.15)] scale-[1.02] transform-gpu"
+              style={{ transform: 'translateZ(0)' }}
             />
 
-            {/* Scroll Hint (Indicator that user should scroll to "pull out" the photo) */}
+            {/* Scroll Hint */}
             <div className="absolute bottom-12 w-full text-center flex flex-col items-center">
               <motion.div
                 animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="text-wood-300 flex flex-col items-center gap-1"
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="text-wood-300 flex flex-col items-center gap-1 transform-gpu"
+                style={{ transform: 'translateZ(0)' }}
               >
                 <span className="text-[10px] tracking-widest font-sans opacity-60">OPEN</span>
                 <ChevronDown size={20} />
