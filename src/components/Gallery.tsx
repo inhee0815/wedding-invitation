@@ -50,7 +50,12 @@ const LightboxImage: React.FC<{
         src={photo.url}
         alt={photo.alt}
         className={`max-w-full max-h-full object-contain select-none pointer-events-none transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        style={{ userSelect: 'none', WebkitTouchCallout: 'none' }}
+        style={{
+          userSelect: 'none',
+          WebkitTouchCallout: 'none',
+          WebkitUserSelect: 'none',
+          pointerEvents: 'none'
+        }}
         onContextMenu={(e) => e.preventDefault()}
         decoding="async"
         onLoad={() => setIsLoaded(true)}
@@ -122,7 +127,8 @@ const Gallery: React.FC = () => {
                 aspectRatio: '1 / 1',
                 WebkitTouchCallout: 'none',
                 userSelect: 'none',
-                WebkitUserSelect: 'none'
+                WebkitUserSelect: 'none',
+                pointerEvents: 'none'
               }}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 pointer-events-auto"
               onContextMenu={(e) => e.preventDefault()}

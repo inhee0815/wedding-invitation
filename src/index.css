@@ -1,0 +1,16 @@
+img {
+    -webkit-touch-callout: none;
+    /* iOS Safari 롱클릭 방지 */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version */
+    -webkit-user-drag: none;
+    /* 이미지 드래그 방지 */
+}
