@@ -19,7 +19,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
   // Snappy spring for immediate feedback
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
+    stiffness: 150,
     damping: 30,
     mass: 1,
     restDelta: 0.001
@@ -38,8 +38,8 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const envelopeOpacity = useTransform(smoothProgress, [0.2, 0.35], [1, 0]);
 
   // 3. Photo Expansion - Starts even deeper (28%) to create clear space from text
-  const photoScale = useTransform(smoothProgress, [0, 0.5], [0.8, 1.01]);
-  const photoY = useTransform(smoothProgress, [0, 0.45], ["20%", "0%"]);
+  const photoScale = useTransform(smoothProgress, [0, 0.5], [0.9, 1.01]);
+  const photoY = useTransform(smoothProgress, [0, 0.45], ["10%", "0%"]);
   const photoRadius = useTransform(smoothProgress, [0.4, 0.6], ["12px", "0px"]);
 
   // 4. Overlay Text (Inside Photo)
@@ -47,7 +47,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
   useEffect(() => {
     const unsubscribe = smoothProgress.on("change", (latest) => {
-      if (latest > 0.5 && !hasOpened) {
+      if (latest > 0.7 && !hasOpened) {
         setHasOpened(true);
         onOpened();
         fireConfetti();
@@ -81,28 +81,16 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="h-[125vh] relative w-full bg-paper touch-pan-y"
-      style={{ isolation: 'isolate' }}
-    >
-      {/* 
-        Optimization: Use 100vh (Dynamic Viewport Height) for the sticky container.
-        This handles mobile address bars smoothly. 
-      */}
-      <div className="sticky top-0 h-[100vh] min-h-[100vh] w-full overflow-hidden flex flex-col items-center justify-center translate-z-0">
+    <div ref={containerRef} className="h-[110vh] relative w-full bg-paper">
+      <div className="sticky top-0 h-[100vh] w-full overflow-hidden flex flex-col items-center justify-center">
 
-        {/* --- Background --- */}
-        <div className="absolute inset-0 bg-stone-100 z-0 transform-gpu" style={{ transform: 'translateZ(0)' }} />
+        {/* --- Background Decorative Element (The "Inside" of the envelope) --- */}
+        <div className="absolute inset-0 bg-stone-100 z-0" />
 
-        {/* --- Layer 1: Initial Floating Text --- */}
+        {/* --- Layer 1: Initial Floating Text (On the paper background) --- */}
         <motion.div
-          style={{
-            opacity: textOpacity,
-            y: textY,
-            translateZ: 0
-          }}
-          className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-12 pointer-events-none transform-gpu"
+          style={{ opacity: textOpacity, y: textY }}
+          className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none"
         >
           <p className="font-hand text-wood-900 text-xs tracking-[0.3em] mb-3 uppercase">the new beginning</p>
           <h1 className="font-hand text-3xl text-wood-900 drop-shadow-sm">
@@ -117,28 +105,28 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           style={{
             scale: photoScale,
             y: photoY,
-            borderRadius: photoRadius,
-            translateZ: 0,
-            willChange: "transform, opacity",
+            //borderRadius: photoRadius,
+            borderRadius: "12px",
+            willChange: "transform",
+            z: 0,
             backfaceVisibility: "hidden"
           }}
-          className="absolute z-10 w-full h-full overflow-hidden origin-center bg-stone-200 shadow-2xl transform-gpu"
+          className="absolute z-10 w-full h-full overflow-hidden origin-center bg-stone-200 shadow-md"
         >
           <motion.img
             src="images/gallery10.jpg"
             alt="Wedding Couple"
-            className="w-full h-full object-cover transform-gpu"
+            className="w-full h-full object-cover"
             fetchPriority="high"
             style={{
-              willChange: "transform",
-              transform: 'translateZ(0)'
+              z: 0
             }}
           />
 
-          {/* Overlay Text */}
+          {/* Overlay Text (Appears after expansion) */}
           <motion.div
             style={{ opacity: overlayOpacity }}
-            className="absolute inset-0 bg-black/30 flex flex-col items-center justify-end pb-24 text-white text-center transform-gpu"
+            className="absolute inset-0 bg-black/30 flex flex-col items-center justify-end pb-24 text-white text-center"
           >
             <h2 className="font-serif text-4xl mb-2 drop-shadow-lg">Jongho & Inhee</h2>
             <p className="font-sans text-sm tracking-[0.2em] opacity-90 drop-shadow-md">2026.04.26 SUN</p>
@@ -151,26 +139,24 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           style={{
             y: envelopeY,
             opacity: envelopeOpacity,
-            translateZ: 0,
             willChange: "transform, opacity"
           }}
-          className="absolute bottom-0 w-full h-[55vh] z-30 pointer-events-none transform-gpu"
+          className="absolute bottom-0 w-full h-[55%] z-30 pointer-events-none"
         >
           <div className="w-full h-full relative">
+            {/* The actual pocket graphic */}
             <img
               src="images/envelope.png"
               alt="봉투 앞면"
-              className="absolute bottom-0 w-full h-auto drop-shadow-[0_-10px_20px_rgba(0,0,0,0.15)] scale-[1.02] transform-gpu"
-              style={{ transform: 'translateZ(0)' }}
+              className="absolute bottom-0 w-full h-auto drop-shadow-md scale-[1.02]"
             />
 
-            {/* Scroll Hint */}
+            {/* Scroll Hint (Indicator that user should scroll to "pull out" the photo) */}
             <div className="absolute bottom-12 w-full text-center flex flex-col items-center">
               <motion.div
                 animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="text-wood-300 flex flex-col items-center gap-1 transform-gpu"
-                style={{ transform: 'translateZ(0)' }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="text-wood-300 flex flex-col items-center gap-1"
               >
                 <span className="text-[10px] tracking-widest font-sans opacity-60">OPEN</span>
                 <ChevronDown size={20} />
