@@ -1,6 +1,7 @@
+
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { ChevronDown, Volume2, VolumeX } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 interface HeroEnvelopeProps {
   onOpened: () => void;
@@ -9,65 +10,44 @@ interface HeroEnvelopeProps {
 const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasOpened, setHasOpened] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
 
-  useEffect(() => {
-    audioRef.current = new Audio("/bgm/main.mp3");
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
-    return () => {
-      if (audioRef.current) audioRef.current.pause();
-    };
-  }, []);
-
-  const togglePlay = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play().catch(e => console.log("Auto-play blocked", e));
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-
-  // Reduced height to 150vh to make the text appear immediately after the "opening"
+  // Scroll Progress
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  // Stiffer spring for closer tracking to scroll position
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 200, damping: 25 });
+  // Snappy spring for immediate feedback
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 250,
+    damping: 35,
+    mass: 0.5,
+    restDelta: 0.001
+  });
 
   // ------------------------------------------------------------------
-  // Animation Mappings
+  // Animation Mappings - Snappy & High Performance
   // ------------------------------------------------------------------
 
-  // 1. Text Fades Out
-  const textOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
-  const textY = useTransform(smoothProgress, [0, 0.2], [0, -50]);
+  // 1. Initial Text (Header) - Positioned at the very top
+  const textOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
+  const textY = useTransform(smoothProgress, [0, 0.1], [0, -40]);
 
-  // 2. Envelope Front moves DOWN and fades
-  const envelopeY = useTransform(smoothProgress, [0.1, 0.4], ["0%", "100%"]);
-  const envelopeOpacity = useTransform(smoothProgress, [0.3, 0.5], [1, 0]);
+  // 2. Envelope Front (The Pocket)
+  const envelopeY = useTransform(smoothProgress, [0.05, 0.3], ["0%", "100%"]);
+  const envelopeOpacity = useTransform(smoothProgress, [0.2, 0.35], [1, 0]);
 
-  // 3. Photo Expansion
-  // Mapped to [0, 1] so it completes exactly when the scroll container ends
-  const photoWidth = useTransform(smoothProgress, [0, 1], ["85%", "100%"]);
-  const photoHeight = useTransform(smoothProgress, [0, 1], ["80%", "100%"]);
-  const photoY = useTransform(smoothProgress, [0, 1], ["5%", "0%"]);
-  const photoScale = useTransform(smoothProgress, [0, 1], [0.95, 1]);
-  const photoRadius = useTransform(smoothProgress, [0.8, 1], ["12px", "0px"]);
+  // 3. Photo Expansion - Starts deeper (15%) and scales from 0.8
+  const photoScale = useTransform(smoothProgress, [0, 0.5], [0.8, 1.01]);
+  const photoY = useTransform(smoothProgress, [0, 0.45], ["18%", "0%"]);
+  const photoRadius = useTransform(smoothProgress, [0.4, 0.6], ["12px", "0px"]);
 
-  // 4. Final Text Overlay
-  const overlayOpacity = useTransform(smoothProgress, [0.7, 1], [0, 1]);
+  // 4. Overlay Text (Inside Photo)
+  const overlayOpacity = useTransform(smoothProgress, [0.6, 0.85], [0, 1]);
 
   useEffect(() => {
-    // Trigger confetti when opened sufficiently
     const unsubscribe = smoothProgress.on("change", (latest) => {
-      if (latest > 0.8 && !hasOpened) {
+      if (latest > 0.7 && !hasOpened) {
         setHasOpened(true);
         onOpened();
         fireConfetti();
@@ -78,7 +58,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
   const fireConfetti = async () => {
     const { default: confetti } = await import('canvas-confetti');
-    const duration = 2500;
+    const duration = 1500;
     const end = Date.now() + duration;
 
     (function frame() {
@@ -86,93 +66,101 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
         particleCount: 4,
         angle: 60,
         spread: 55,
-        origin: { x: 0, y: 0.7 },
-        colors: ['#ffffff', '#ffe4e1', '#f0f8ff'],
-        drift: 0.5
+        origin: { x: 0, y: 0.8 },
+        colors: ['#ffffff', '#ffe4e1'],
       });
       confetti({
         particleCount: 4,
         angle: 120,
         spread: 55,
-        origin: { x: 1, y: 0.7 },
-        colors: ['#ffffff', '#ffe4e1', '#f0f8ff'],
-        drift: -0.5
+        origin: { x: 1, y: 0.8 },
+        colors: ['#ffffff', '#ffe4e1'],
       });
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
+      if (Date.now() < end) requestAnimationFrame(frame);
     })();
   };
 
   return (
-    <div ref={containerRef} className="h-[120vh] relative w-full bg-paper">
+    <div ref={containerRef} className="h-[110vh] relative w-full bg-paper">
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center">
 
-        {/* --- Layer 1: The Photo --- */}
+        {/* --- Background Decorative Element (The "Inside" of the envelope) --- */}
+        <div className="absolute inset-0 bg-stone-100 z-0" />
+
+        {/* --- Layer 1: Initial Floating Text (On the paper background) --- */}
+        <motion.div
+          style={{ opacity: textOpacity, y: textY }}
+          className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none"
+        >
+          <p className="font-hand text-wood-800 text-xs tracking-[0.3em] mb-3 uppercase">the new beginning</p>
+          <h1 className="font-hand text-3xl text-wood-900 drop-shadow-sm">
+            이종호 <span className="text-xl mx-1 text-wood-300">그리고</span> 김인희
+          </h1>
+          <p className="mt-4 text-[10px] text-wood-400 font-sans tracking-[0.2em]">2026.04.26 SUN 13:50</p>
+        </motion.div>
+
+
+        {/* --- Layer 2: The Photo --- */}
         <motion.div
           style={{
-            width: photoWidth,
-            height: photoHeight,
-            y: photoY,
             scale: photoScale,
-            borderRadius: photoRadius
+            y: photoY,
+            borderRadius: photoRadius,
+            willChange: "transform",
+            z: 0,
+            backfaceVisibility: "hidden"
           }}
-          className="absolute z-10 overflow-hidden shadow-2xl origin-center bg-gray-200"
+          className="absolute z-10 w-full h-full overflow-hidden origin-center bg-stone-200 shadow-2xl"
         >
-          <img
+          <motion.img
             src="images/gallery10.jpg"
             alt="Wedding Couple"
             className="w-full h-full object-cover"
-            fetchpriority="high" // 우선순위 상향
+            fetchPriority="high"
+            style={{
+              willChange: "transform",
+              z: 0
+            }}
           />
 
-          {/* Dark gradient overlay */}
+          {/* Overlay Text (Appears after expansion) */}
           <motion.div
             style={{ opacity: overlayOpacity }}
             className="absolute inset-0 bg-black/30 flex flex-col items-center justify-end pb-24 text-white text-center"
           >
-            <h2 className="font-serif text-4xl mb-2 drop-shadow-md">Jongho & Inhee</h2>
+            <h2 className="font-serif text-4xl mb-2 drop-shadow-lg">Jongho & Inhee</h2>
             <p className="font-sans text-sm tracking-[0.2em] opacity-90 drop-shadow-md">2026.04.26 SUN</p>
           </motion.div>
         </motion.div>
 
 
-        {/* --- Layer 2: Top Text (Initial State) --- */}
+        {/* --- Layer 3: The Envelope Front (The Pocket) --- */}
         <motion.div
-          style={{ opacity: textOpacity, y: textY }}
-          className="absolute top-0 w-full h-[40%] z-20 flex flex-col items-center justify-center pt-10"
-        >
-          <p className="font-serif text-wood-800 text-sm tracking-widest mt-2 mb-2">Wedding Invitation</p>
-          <h1 className="font-hand text-2xl text-wood-900">
-            이종호 <span className="text-sm mx-1">&</span> 김인희
-          </h1>
-          <p className="mt-4 text-xs text-wood-400 font-sans">2026.04.26.SUN</p>
-        </motion.div>
-
-
-        {/* --- Layer 3: The Envelope Front (Pocket) --- */}
-        <motion.div
-          style={{ y: envelopeY, opacity: envelopeOpacity }}
-          className="absolute bottom-0 w-full h-[40%] z-30 pointer-events-none"
+          style={{
+            y: envelopeY,
+            opacity: envelopeOpacity,
+            willChange: "transform, opacity"
+          }}
+          className="absolute bottom-0 w-full h-[55%] z-30 pointer-events-none"
         >
           <div className="w-full h-full relative">
-            {/* SVG 대신 이미지를 사용 */}
+            {/* The actual pocket graphic */}
             <img
               src="images/envelope.png"
               alt="봉투 앞면"
-              className="absolute bottom-0 w-full h-auto drop-shadow-lg" // 그림자도 이미지에 포함시키면 더 좋습니다!
-              style={{ willChange: "transform" }} // 하드웨어 가속 강제
+              className="absolute bottom-0 w-full h-auto drop-shadow-[0_-10px_20px_rgba(0,0,0,0.15)] scale-[1.02]"
+              style={{ willChange: "transform" }}
             />
 
-            {/* Decorative Scroll Hint */}
-            <div className="absolute bottom-12 w-full text-center flex flex-col items-center justify-end pb-8">
+            {/* Scroll Hint (Indicator that user should scroll to "pull out" the photo) */}
+            <div className="absolute bottom-12 w-full text-center flex flex-col items-center">
               <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="text-wood-300"
+                animate={{ y: [0, 6, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                className="text-wood-300 flex flex-col items-center gap-1"
               >
-                <ChevronDown size={24} />
+                <span className="text-[10px] tracking-widest font-sans opacity-60">OPEN</span>
+                <ChevronDown size={20} />
               </motion.div>
             </div>
           </div>
