@@ -4,17 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Photo } from '../types';
 import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
-const photos: Photo[] = [
-  { id: 1, url: 'images/together1.jpg', alt: 'Wedding 1' },
-  { id: 2, url: 'images/jongho1.jpg', alt: 'Wedding 2' },
-  { id: 3, url: 'images/together2.jpg', alt: 'Wedding 3' },
-  { id: 4, url: 'images/inhee1.jpg', alt: 'Wedding 4' },
-  { id: 5, url: 'images/inhee2.jpg', alt: 'Wedding 5' },
-  { id: 6, url: 'images/jongho2.jpg', alt: 'Wedding 6' },
-  { id: 7, url: 'images/together3.jpg', alt: 'Wedding 7' },
-  { id: 8, url: 'images/together4.jpg', alt: 'Wedding 8' },
-  { id: 9, url: 'images/together5.jpg', alt: 'Wedding 9' },
-];
+const photos: Photo[] = Array.from({ length: 15 }, (_, i) => ({
+  id: i + 1,
+  url: `images/gallery${i + 5}.jpg`,
+  alt: `Wedding Photo ${i + 5}`,
+}));
 
 // Helper Component for Individual Lightbox Image
 // Manages its own loading state to prevent global flicker
