@@ -10,7 +10,7 @@ const Guestbook: React.FC = () => {
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(10);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     const loadData = async () => {
@@ -78,7 +78,7 @@ const Guestbook: React.FC = () => {
           <div className="mb-4">
             <input
               type="text"
-              placeholder="이름 (Name)"
+              placeholder="이름"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full border-b border-stone-300 py-2 px-1 text-sm focus:outline-none focus:border-wood-800 transition-colors bg-transparent placeholder-stone-400"
@@ -88,7 +88,7 @@ const Guestbook: React.FC = () => {
           </div>
           <div className="mb-6">
             <textarea
-              placeholder="축하 메시지를 남겨주세요 (Message)"
+              placeholder="축하 메시지를 남겨주세요"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="w-full border border-stone-300 rounded-md p-3 text-sm focus:outline-none focus:border-wood-800 transition-colors bg-stone-50 placeholder-stone-400 h-24 resize-none"
@@ -99,9 +99,9 @@ const Guestbook: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-wood-800 text-white py-3 text-sm tracking-widest hover:bg-wood-900 transition-colors disabled:opacity-50"
+            className="w-full bg-wood-800 text-white py-3 text-sm tracking-widest hover:bg-wood-900 transition-colors disabled:opacity-50 rounded-lg "
           >
-            {isSubmitting ? 'SAVING...' : '등록하기'}
+            {isSubmitting ? '저장중...' : '등록하기'}
           </button>
         </form>
 

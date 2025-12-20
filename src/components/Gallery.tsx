@@ -172,7 +172,8 @@ const Gallery: React.FC = () => {
             </button>
 
             {/* Main Image Container */}
-            <div className="w-full h-full flex items-center justify-center p-0 sm:p-4 overflow-hidden relative">
+            <div className="w-full h-full flex items-center justify-center p-0 sm:p-4 overflow-hidden relative"
+              onClick={(e) => e.stopPropagation()}>
               <LightboxImage
                 photo={photos[selectedPhotoIndex]}
                 onNext={handleNext}
@@ -181,7 +182,7 @@ const Gallery: React.FC = () => {
             </div>
 
             {/* Indicator */}
-            <div className="absolute bottom-10 left-0 right-0 text-center text-white/60 text-sm font-light">
+            <div className="absolute bottom-10 left-0 right-0 text-center text-white/60 text-sm font-light" onClick={(e) => e.stopPropagation()}>
               {selectedPhotoIndex + 1} / {photos.length}
             </div>
           </motion.div>

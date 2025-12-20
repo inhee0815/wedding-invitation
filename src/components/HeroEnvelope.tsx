@@ -38,9 +38,8 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const envelopeOpacity = useTransform(smoothProgress, [0.2, 0.35], [1, 0]);
 
   // 3. Photo Expansion - Starts even deeper (28%) to create clear space from text
-  const photoScale = useTransform(smoothProgress, [0, 0.5], [0.9, 1.01]);
-  const photoY = useTransform(smoothProgress, [0, 0.45], ["10%", "0%"]);
-  const photoRadius = useTransform(smoothProgress, [0.4, 0.6], ["12px", "0px"]);
+  const photoScale = useTransform(smoothProgress, [0, 0.5], [0.95, 1.01]);
+  const photoY = useTransform(smoothProgress, [0, 0.45], ["13%", "0%"]);
 
   // 4. Overlay Text (Inside Photo)
   const overlayOpacity = useTransform(smoothProgress, [0.6, 0.85], [0, 1]);
@@ -158,7 +157,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 className="text-wood-300 flex flex-col items-center gap-1"
               >
-                <span className="text-[10px] tracking-widest font-sans opacity-60">OPEN</span>
+                <span className="text-[10px] text-wood-900 tracking-widest font-sans opacity-60">OPEN</span>
                 <ChevronDown size={20} />
               </motion.div>
             </div>
