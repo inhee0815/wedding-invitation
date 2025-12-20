@@ -19,7 +19,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
   // Snappy spring for immediate feedback
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 150,
+    stiffness: 100,
     damping: 30,
     mass: 1,
     restDelta: 0.001
@@ -47,7 +47,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
   useEffect(() => {
     const unsubscribe = smoothProgress.on("change", (latest) => {
-      if (latest > 0.7 && !hasOpened) {
+      if (latest > 0.5 && !hasOpened) {
         setHasOpened(true);
         onOpened();
         fireConfetti();
@@ -84,13 +84,13 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
     <div
       ref={containerRef}
       className="h-[125vh] relative w-full bg-paper touch-pan-y"
-      style={{ WebkitOverflowScrolling: 'touch' }}
+      style={{ isolation: 'isolate' }}
     >
       {/* 
-        Optimization: Use 100dvh (Dynamic Viewport Height) for the sticky container.
+        Optimization: Use 100vh (Dynamic Viewport Height) for the sticky container.
         This handles mobile address bars smoothly. 
       */}
-      <div className="sticky top-0 h-[100dvh] min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center translate-z-0">
+      <div className="sticky top-0 h-[100vh] min-h-[100vh] w-full overflow-hidden flex flex-col items-center justify-center translate-z-0">
 
         {/* --- Background --- */}
         <div className="absolute inset-0 bg-stone-100 z-0 transform-gpu" style={{ transform: 'translateZ(0)' }} />
@@ -154,7 +154,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
             translateZ: 0,
             willChange: "transform, opacity"
           }}
-          className="absolute bottom-0 w-full h-[55dvh] z-30 pointer-events-none transform-gpu"
+          className="absolute bottom-0 w-full h-[55vh] z-30 pointer-events-none transform-gpu"
         >
           <div className="w-full h-full relative">
             <img
