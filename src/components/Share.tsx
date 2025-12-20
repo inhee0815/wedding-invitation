@@ -16,10 +16,8 @@ const Share: React.FC = () => {
       }
 
       kakao.Share.sendCustom({
-        templateId: 126676,
+        templateId: 127052,
         templateArgs: {
-          title: 'Jongho 💚 Inhee',
-          description: '26년 4월 26일 (일) 오후 1시 50분 가천컨벤션센터',
         },
       });
       console.log('카카오톡 공유하기 기능을 실행합니다.');
