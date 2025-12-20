@@ -107,17 +107,24 @@ const Gallery: React.FC = () => {
             key={photo.id}
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ margin: "50px" }}
+            viewport={{ once: true, margin: "100px" }} // Changed once: true to prevent flickering
             transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="aspect-square bg-gray-100 overflow-hidden cursor-pointer"
+            className="aspect-square bg-gray-100 overflow-hidden cursor-pointer relative"
             onClick={() => setSelectedPhotoIndex(index)}
           >
             <img
               src={photo.url}
+              alt={photo.alt}
               loading="lazy"
               decoding="async"
-              style={{ aspectRatio: '1 / 1' }}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              draggable="false"
+              style={{
+                aspectRatio: '1 / 1',
+                WebkitTouchCallout: 'none',
+                userSelect: 'none',
+                WebkitUserSelect: 'none'
+              }}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 pointer-events-auto"
               onContextMenu={(e) => e.preventDefault()}
             />
           </motion.div>
