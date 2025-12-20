@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MapPin, Copy, Check } from 'lucide-react';
+import { MapPin, Navigation, Bus, Train, Car, Copy, Check } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -30,7 +30,7 @@ const Location: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleNavigation = (e: React.MouseEvent, type: 'naverMap' | 'tmap' | 'kakaoMap') => {
+  const handleNavigation = (e: React.MouseEvent, type: string) => {
     e.preventDefault();
 
     const { name, lat, lng } = NAV_INFO;
@@ -45,23 +45,9 @@ const Location: React.FC = () => {
         break;
 
       case 'naverMap':
-        const appUrl = `navermaps://?menu=location&pinType=place&lat=${lat}&lng=${lng}&title=${name}`;
-        // Fallback Web URL (using modern Naver Map web parameters)
         const webUrl = `http://map.naver.com/index.nhn?elng=${lng}&elat=${lat}&etext=${name}&menu=route&pathType=0`;
 
-        // Timer hack to check if app opened
-        const clickedAt = +new Date();
-
-        // Attempt to open app
-        window.location.href = appUrl;
-
-        // Fallback check
-        setTimeout(() => {
-          if (+new Date() - clickedAt < 2000) {
-            // If the user is still on this page after 1.5s (meaning app didn't switch context), open web
-            window.location.href = webUrl;
-          }
-        }, 1500);
+        window.location.href = webUrl;
         break;
     }
   };
@@ -138,70 +124,78 @@ const Location: React.FC = () => {
             </div>
           )}
         </div>
-        {/* Navigation Links Section */}
-        <div className="max-w-md mx-auto mb-4 text-sm bg-white p-6 rounded-lg shadow-sm border border-stone-100">
-          <strong className="text-wood-800 block mb-2">📍 내비게이션</strong>
-          <p className="text-xs text-stone-500 mb-4">원하시는 앱을 선택하시면 길안내가 시작됩니다.</p>
 
+        {/* Navigation Grid */}
+        <div className="mb-12">
           <div className="grid grid-cols-3 gap-3">
-            {/* Naver Map */}
-            <button
-              onClick={(e) => handleNavigation(e, 'naverMap')}
-              className="flex flex-col items-center justify-center bg-stone-50 border border-stone-100 rounded-lg py-3 hover:bg-stone-100 transition-colors gap-1.5 shadow-sm"
-            >
-              <div className="w-8 h-8 rounded-full bg-[#03C75A] flex items-center justify-center text-white font-bold shadow-sm">
-                <span className="text-[10px] transform scale-150">N</span>
-              </div>
-              <span className="text-[11px] text-stone-700 font-medium mt-1">네이버지도</span>
-            </button>
-
-            {/* TMap */}
-            <button
-              onClick={(e) => handleNavigation(e, 'tmap')}
-              className="flex flex-col items-center justify-center bg-stone-50 border border-stone-100 rounded-lg py-3 hover:bg-stone-100 transition-colors gap-1.5 shadow-sm"
-            >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#00C73C] to-[#004C8C] flex items-center justify-center text-white font-bold shadow-sm">
-                <span className="text-[10px] transform scale-125">T</span>
-              </div>
-              <span className="text-[11px] text-stone-700 font-medium mt-1">티맵</span>
-            </button>
-
-            {/* KakaoNavi */}
-            <button
-              onClick={(e) => handleNavigation(e, 'kakaoMap')}
-              className="flex flex-col items-center justify-center bg-stone-50 border border-stone-100 rounded-lg py-3 hover:bg-stone-100 transition-colors gap-1.5 shadow-sm"
-            >
-              <div className="w-8 h-8 rounded-full bg-[#FEE500] flex items-center justify-center text-[#191919] relative overflow-hidden shadow-sm">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 translate-y-[1px]">
-                  <path d="M12 3L4 19L12 15L20 19L12 3Z" />
-                </svg>
-              </div>
-              <span className="text-[11px] text-stone-700 font-medium mt-1">카카오맵</span>
-            </button>
+            {[
+              { id: 'naverMap', name: '네이버', color: '#03C75A', icon: 'N' },
+              { id: 'tmap', name: '티맵', color: '#111111', icon: 'T' },
+              { id: 'kakaoMap', name: '카카오', color: '#FEE500', icon: 'K' }
+            ].map((app) => (
+              <button
+                key={app.id}
+                onClick={(e: any) => { handleNavigation(e, app.id) }}
+                className="flex flex-col items-center py-4 bg-white rounded-xl border border-stone-100 shadow-sm transition-all active:scale-95 hover:bg-stone-50"
+              >
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center mb-2 shadow-sm text-sm font-bold"
+                  style={{ backgroundColor: app.color, color: 'white' }}
+                >
+                  {app.icon}
+                </div>
+                <span className="text-[11px] text-stone-600 font-medium">{app.name}</span>
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="space-y-6 text-sm text-stone-600 max-w-md mx-auto bg-white p-6 rounded-lg shadow-sm border border-stone-100">
-          <div>
-            <strong className="text-wood-800 block mb-2">🚇 지하철</strong>
-            <p className="text-xs leading-relaxed text-stone-500">수인분당선 <span className="font-bold text-[#EBA900]">가천대역</span> 1번 출구<br />(비전타워 통로 연결)</p>
+        {/* Transport Info Section */}
+        <div className="space-y-4">
+          {/* Subway */}
+          <div className="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+            <div className="flex items-start gap-4">
+              <div className="mt-1 p-2 rounded-lg"><Train size={18} className="text-wood-700" /></div>
+              <div>
+                <h4 className="text-[14px] font-bold text-wood-900 mb-2">지하철 이용 시</h4>
+                <div className="text-[13px] leading-relaxed text-stone-500">
+                  <span className="inline-block px-1.5 py-0.5 rounded bg-[#EBA900] text-white text-[10px] mr-1">수인분당선</span>
+                  <span className="font-bold text-stone-700">가천대역</span> 1번 출구
+                  <p className="mt-1 text-stone-400">비전타워 통로를 통해 예식장까지 연결됩니다.</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="border-t border-stone-100 pt-4">
-            <strong className="text-wood-800 block mb-2">🚌 버스</strong>
-            <p className="text-xs leading-relaxed text-stone-500">
-              가천대역.가천대학교 하차<br />
-              <span className="inline-block mt-1 text-[10px] text-stone-400">간선 302, 303, 333, 440 등</span>
-            </p>
+
+          {/* Bus */}
+          <div className="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+            <div className="flex items-start gap-4">
+              <div className="mt-1 p-2"><Bus size={18} className="text-wood-700" /></div>
+              <div>
+                <h4 className="text-[14px] font-bold text-wood-900 mb-2">버스 이용 시</h4>
+                <p className="text-[13px] leading-relaxed text-stone-500 font-bold text-stone-700">가천대역.가천대학교 하차</p>
+                <p className="mt-1 text-[12px] text-stone-400">간선 302, 303, 333, 440, 452</p>
+                <p className="text-[12px] text-stone-400">일반 116, 119, 15-1, 32, 5, 500-1</p>
+              </div>
+            </div>
           </div>
-          <div className="border-t border-stone-100 pt-4">
-            <strong className="text-wood-800 block mb-2">🚗 자가용 / 주차</strong>
-            <p className="text-xs leading-relaxed text-stone-500">
-              내비게이션 '가천컨벤션센터' 또는 '가천대학교 비전타워'<br />
-              <span className="inline-block mt-1 text-wood-800 font-medium">비전타워 주차장 B3~B4층 이용</span>
-            </p>
+
+          {/* Parking */}
+          <div className="bg-white p-6 rounded-2xl border border-stone-100 shadow-sm">
+            <div className="flex items-start gap-4">
+              <div className="mt-1 p-2"><Car size={18} className="text-wood-700" /></div>
+              <div>
+                <h4 className="text-[14px] font-bold text-wood-900 mb-2">자가용 및 주차</h4>
+                <p className="text-[13px] leading-relaxed text-stone-500">
+                  <span className="text-wood-800 font-bold">비전타워 주차장 B3 ~ B4층</span> 이용
+                </p>
+                <p className="mt-1 text-[12px] text-stone-400">내비게이션에 '가천컨벤션센터' 검색</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
     </>
   );
 };
