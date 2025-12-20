@@ -31,15 +31,15 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
   // 1. Initial Text (Header) - Positioned at the very top
   const textOpacity = useTransform(smoothProgress, [0, 0.1], [1, 0]);
-  const textY = useTransform(smoothProgress, [0, 0.1], [0, -40]);
+  const textY = useTransform(smoothProgress, [0, 0.1], [0, -50]); // Slightly more lift
 
   // 2. Envelope Front (The Pocket)
   const envelopeY = useTransform(smoothProgress, [0.05, 0.3], ["0%", "100%"]);
   const envelopeOpacity = useTransform(smoothProgress, [0.2, 0.35], [1, 0]);
 
-  // 3. Photo Expansion - Starts deeper (15%) and scales from 0.8
+  // 3. Photo Expansion - Starts even deeper (28%) to create clear space from text
   const photoScale = useTransform(smoothProgress, [0, 0.5], [0.8, 1.01]);
-  const photoY = useTransform(smoothProgress, [0, 0.45], ["18%", "0%"]);
+  const photoY = useTransform(smoothProgress, [0, 0.45], ["20%", "0%"]);
   const photoRadius = useTransform(smoothProgress, [0.4, 0.6], ["12px", "0px"]);
 
   // 4. Overlay Text (Inside Photo)
@@ -67,21 +67,21 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
         angle: 60,
         spread: 55,
         origin: { x: 0, y: 0.8 },
-        colors: ['#ffffff', '#ffe4e1'],
+        colors: ['#ffffffff', '#a6eaa6ff'],
       });
       confetti({
         particleCount: 4,
         angle: 120,
         spread: 55,
         origin: { x: 1, y: 0.8 },
-        colors: ['#ffffff', '#ffe4e1'],
+        colors: ['#ffffff', '#a6eaa6ff'],
       });
       if (Date.now() < end) requestAnimationFrame(frame);
     })();
   };
 
   return (
-    <div ref={containerRef} className="h-[110vh] relative w-full bg-paper">
+    <div ref={containerRef} className="h-[105vh] relative w-full bg-paper">
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center">
 
         {/* --- Background Decorative Element (The "Inside" of the envelope) --- */}
@@ -92,9 +92,9 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           style={{ opacity: textOpacity, y: textY }}
           className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none"
         >
-          <p className="font-hand text-wood-800 text-xs tracking-[0.3em] mb-3 uppercase">the new beginning</p>
+          <p className="font-hand text-wood-900 text-xs tracking-[0.3em] mb-3 uppercase">the new beginning</p>
           <h1 className="font-hand text-3xl text-wood-900 drop-shadow-sm">
-            이종호 <span className="text-xl mx-1 text-wood-300">그리고</span> 김인희
+            이종호 <span className="text-xl mx-1 text-wood-900">&</span> 김인희
           </h1>
           <p className="mt-4 text-[10px] text-wood-400 font-sans tracking-[0.2em]">2026.04.26 SUN 13:50</p>
         </motion.div>
