@@ -8,7 +8,7 @@ interface HeroEnvelopeProps {
 const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasOpened, setHasOpened] = useState(false);
-  const [fixedHeight, setFixedHeight] = useState<string>('85vh'); // 초기값
+  const [fixedHeight, setFixedHeight] = useState<string>('95vh'); // 초기값
 
   // [핵심] 인앱 브라우저의 가변 높이를 고정된 픽셀값으로 변경
   useEffect(() => {
