@@ -21,10 +21,10 @@ const InvitationText: React.FC = () => {
           더없는 기쁨으로 간직하겠습니다.
         </p>
 
-        <div className="mt-12 grid grid-cols-[auto_auto_auto_auto] gap-x-1 gap-y-4 items-center justify-center font-sans text-stone-700">
+        <div className="mt-12 grid grid-cols-[auto_auto_auto_auto] gap-x-1 gap-y-4 items-center justify-center font-hand text-stone-700">
 
           {/* Groom Side */}
-          <div className="text-right font-medium text-lg whitespace-nowrap">
+          <div className="text-right font-bold text-lg whitespace-nowrap">
             이우홍 · 이현주
           </div>
           <div className="text-left whitespace-nowrap">
@@ -38,7 +38,7 @@ const InvitationText: React.FC = () => {
           </div>
 
           {/* Bride Side */}
-          <div className="text-right font-medium text-lg whitespace-nowrap">
+          <div className="text-right font-bold text-lg whitespace-nowrap">
             김수원 · 윤영미
           </div>
           <div className="text-left whitespace-nowrap">

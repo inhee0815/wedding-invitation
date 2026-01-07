@@ -161,7 +161,7 @@ const Location: React.FC = () => {
                 <div className="text-[13px] leading-relaxed text-stone-500">
                   <span className="inline-block px-1.5 py-0.5 rounded bg-[#EBA900] text-white text-[10px] mr-1">수인분당선</span>
                   <span className="font-bold text-stone-700">가천대역</span> 1번 출구
-                  <p className="mt-1 text-stone-400">비전타워 통로를 통해 예식장까지 연결됩니다.</p>
+                  <p className="mt-1 text-[12px] text-stone-400">비전타워 통로를 통해 예식장까지 연결됩니다.</p>
                 </div>
               </div>
             </div>
