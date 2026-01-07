@@ -8,12 +8,14 @@ interface HeroEnvelopeProps {
 const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasOpened, setHasOpened] = useState(false);
-  const [fixedHeight, setFixedHeight] = useState<string>('95vh'); // 초기값
+  const [fixedHeight, setFixedHeight] = useState<string>('85vh'); // 초기값
+  const [fixedPaddingTop, setFixedPaddingTop] = useState<string>('12vh'); // 텍스트 위치 고정용
 
   // [핵심] 인앱 브라우저의 가변 높이를 고정된 픽셀값으로 변경
   useEffect(() => {
-    const vh = window.innerHeight * 0.95;
+    const vh = window.innerHeight * 0.85;
     setFixedHeight(`${vh}px`); // 85dvh에 해당하는 값을 픽셀로 고정
+    setFixedPaddingTop(`${vh * 0.12}px`); // 12dvh를 px로 변환
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -71,7 +73,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
     // 1. 전체 컨테이너의 스크롤 공간을 픽셀 기반으로 여유있게 설정
     <div
       ref={containerRef}
-      style={{ height: `calc(${fixedHeight} * 1.1)` }}
+      style={{ height: `calc(${fixedHeight} * 1)` }}
       className="relative w-full bg-paper"
     >
       <div
@@ -91,7 +93,14 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
         {/* --- Initial Floating Text --- */}
         <motion.div
-          className="absolute inset-0 z-20 flex flex-col items-center justify-start pt-[12dvh] pointer-events-none"
+          style={{
+            opacity: textOpacity,
+            paddingTop: fixedPaddingTop, // [핵심] dvh 대신 고정된 px 사용
+            // GPU 가속을 강제하여 미세한 떨림 방지
+            transform: "translateZ(0)",
+            WebkitBackfaceVisibility: "hidden"
+          }}
+          className="absolute inset-0 z-20 flex flex-col items-center justify-start pointer-events-none"
         >
           <p className="font-hand text-xs text-wood-900 tracking-[0.3em] mb-3 uppercase">the new beginning</p>
           <h1 className="font-hand text-3xl text-wood-900 drop-shadow-md">
