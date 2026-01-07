@@ -104,7 +104,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
         {/* --- Initial Floating Text (사진 위에 떠 있는 텍스트) --- */}
         <div
           style={{ opacity: textOpacity }}
-          className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none text-white"
+          className="absolute top-0 w-full h-[30dvh] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none text-white"
         // 배경 사진 위에서 잘 보이도록 글자색이나 drop-shadow를 고려해보세요
         >
           <p className="font-hand text-xs text-wood-900 tracking-[0.3em] mb-3 uppercase">the new beginning</p>
