@@ -83,45 +83,24 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
     <div ref={containerRef} className="h-[110vh] relative w-full bg-paper">
       <div className="sticky top-0 h-[100vh] w-full overflow-hidden flex flex-col items-center justify-center">
 
-        {/* --- Background Decorative Element (The "Inside" of the envelope) --- */}
-        <div className="absolute inset-0 bg-stone-100 z-0" />
-
-        {/* --- Layer 1: Initial Floating Text (On the paper background) --- */}
-        <motion.div
-          style={{ opacity: textOpacity }}
-          className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none"
-        >
-          <p className="font-hand text-wood-900 text-xs tracking-[0.3em] mb-3 uppercase">the new beginning</p>
-          <h1 className="font-hand text-3xl text-wood-900 drop-shadow-sm">
-            이종호 <span className="text-xl mx-1 text-wood-900">&</span> 김인희
-          </h1>
-          <p className="mt-4 text-[10px] text-wood-400 font-sans tracking-[0.2em]">2026.04.26 SUN 13:50</p>
-        </motion.div>
-
-
-        {/* --- Layer 2: The Photo --- */}
+        {/* --- Background: 사진 레이어 (크기 고정) --- */}
         <motion.div
           style={{
-            //scale: photoScale,
-            //y: photoY,
-            //borderRadius: photoRadius,
-            //borderRadius: "12px",
-            z: 0,
-            backfaceVisibility: "hidden"
+            // 이제 변하는 값(scale, y) 없이 고정된 스타일만 부여합니다.
+            zIndex: 10,
+            willChange: "auto", // 애니메이션이 없으므로 auto로 설정해 메모리 절약
           }}
-          className="absolute z-10 w-full h-full overflow-hidden origin-center bg-stone-200 shadow-md"
+          className="absolute inset-0 w-full h-full overflow-hidden bg-stone-200"
         >
-          <motion.img
+          <img
             src="images/gallery10.jpg"
             alt="Wedding Couple"
             className="w-full h-full object-cover"
             fetchPriority="high"
-            style={{
-              z: 0
-            }}
+          // 인앱 브라우저 최적화: 이미지 자체에 불필요한 motion이나 연산 제거
           />
 
-          {/* Overlay Text (Appears after expansion) */}
+          {/* Overlay Text (스크롤에 따라 서서히 나타남) */}
           <motion.div
             style={{ opacity: overlayOpacity }}
             className="absolute inset-0 bg-black/30 flex flex-col items-center justify-end pb-24 text-white text-center"
@@ -131,9 +110,21 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           </motion.div>
         </motion.div>
 
+        {/* --- Initial Floating Text (사진 위에 떠 있는 텍스트) --- */}
+        <motion.div
+          style={{ opacity: textOpacity }}
+          className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none text-white"
+        // 배경 사진 위에서 잘 보이도록 글자색이나 drop-shadow를 고려해보세요
+        >
+          <p className="font-hand text-xs text-wood-900 tracking-[0.3em] mb-3 uppercase">the new beginning</p>
+          <h1 className="font-hand text-3xl text-wood-900 drop-shadow-md">
+            이종호 <span className="text-xl mx-1">&</span> 김인희
+          </h1>
+          <p className="mt-4 text-[10px] font-sans text-wood-900 tracking-[0.2em]">2026.04.26 SUN 13:50</p>
+        </motion.div>
+
       </div>
     </div>
   );
 };
-
 export default HeroEnvelope;
