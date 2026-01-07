@@ -128,7 +128,7 @@ const Contact: React.FC = () => {
           title="신부"
           people={[
             {
-              name: "김인희", role: "신부", phone: "010-5006-7909", bank: "우리은행", account: "1002-043-614444", payUrl: "https://qr.kakaopay.com/Ej82u7A9S",
+              name: "김인희", role: "신부", phone: "010-5006-7909", bank: "우리은행", account: "1002-043-614444", payUrl: "https://qr.kakaopay.com/Ej9G6v3NR",
               payImageUrl: "images/payment_icon_yellow_small.png"
             },
             { name: "김수원", role: "아버지", phone: "010-0000-0000" },
