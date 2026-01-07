@@ -80,8 +80,8 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   };
 
   return (
-    <div ref={containerRef} className="h-[110vh] relative w-full bg-paper">
-      <div className="sticky top-0 h-[100vh] w-full overflow-hidden flex flex-col items-center justify-center">
+    <div ref={containerRef} className="h-[110dvh] relative w-full bg-paper">
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center">
 
         {/* --- Background: 사진 레이어 (크기 고정) --- */}
         <div
@@ -90,12 +90,12 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
             zIndex: 10,
             willChange: "auto", // 애니메이션이 없으므로 auto로 설정해 메모리 절약
           }}
-          className="absolute inset-0 w-full h-full overflow-hidden bg-stone-200"
+          className="absolute inset-0 w-full overflow-hidden bg-stone-200"
         >
           <img
             src="images/gallery10.jpg"
             alt="Wedding Couple"
-            className="w-full h-full object-cover"
+            className="w-full object-cover"
             fetchPriority="high"
           // 인앱 브라우저 최적화: 이미지 자체에 불필요한 motion이나 연산 제거
           />
