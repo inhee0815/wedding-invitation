@@ -102,10 +102,10 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
         {/* --- Layer 2: The Photo --- */}
         <motion.div
           style={{
-            scale: photoScale,
-            y: photoY,
+            //scale: photoScale,
+            //y: photoY,
             //borderRadius: photoRadius,
-            borderRadius: "12px",
+            //borderRadius: "12px",
             willChange: "transform",
             z: 0,
             backfaceVisibility: "hidden"
@@ -132,37 +132,6 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           </motion.div>
         </motion.div>
 
-
-        {/* --- Layer 3: The Envelope Front (The Pocket) --- */}
-        <motion.div
-          style={{
-            y: envelopeY,
-            opacity: envelopeOpacity,
-            willChange: "transform, opacity"
-          }}
-          className="absolute bottom-0 w-full h-[55%] z-30 pointer-events-none"
-        >
-          <div className="w-full h-full relative">
-            {/* The actual pocket graphic */}
-            <img
-              src="images/envelope.png"
-              alt="봉투 앞면"
-              className="absolute bottom-0 w-full h-auto drop-shadow-md scale-[1.02]"
-            />
-
-            {/* Scroll Hint (Indicator that user should scroll to "pull out" the photo) */}
-            <div className="absolute bottom-12 w-full text-center flex flex-col items-center">
-              <motion.div
-                animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="text-wood-300 flex flex-col items-center gap-1"
-              >
-                <span className="text-[10px] text-wood-900 tracking-widest font-sans opacity-60">OPEN</span>
-                <ChevronDown size={20} />
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </div>
   );
