@@ -88,7 +88,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
 
         {/* --- Layer 1: Initial Floating Text (On the paper background) --- */}
         <motion.div
-          style={{ opacity: textOpacity, y: textY }}
+          style={{ opacity: textOpacity }}
           className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none"
         >
           <p className="font-hand text-wood-900 text-xs tracking-[0.3em] mb-3 uppercase">the new beginning</p>
@@ -106,7 +106,6 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
             //y: photoY,
             //borderRadius: photoRadius,
             //borderRadius: "12px",
-            willChange: "transform",
             z: 0,
             backfaceVisibility: "hidden"
           }}
