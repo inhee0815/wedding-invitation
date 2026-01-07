@@ -67,7 +67,7 @@ const App: React.FC = () => {
       <InvitationText />
 
       {/* 3. Countdown */}
-      <Countdown targetDate="2026-04-26T13:50:00" />
+      <Countdown targetDate="2026-04-26T13:40:00" />
 
       {/* 4. Gallery */}
       <Gallery />

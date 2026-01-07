@@ -84,7 +84,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
       <div className="sticky top-0 h-[100vh] w-full overflow-hidden flex flex-col items-center justify-center">
 
         {/* --- Background: 사진 레이어 (크기 고정) --- */}
-        <motion.div
+        <div
           style={{
             // 이제 변하는 값(scale, y) 없이 고정된 스타일만 부여합니다.
             zIndex: 10,
@@ -99,19 +99,10 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
             fetchPriority="high"
           // 인앱 브라우저 최적화: 이미지 자체에 불필요한 motion이나 연산 제거
           />
-
-          {/* Overlay Text (스크롤에 따라 서서히 나타남) */}
-          <motion.div
-            style={{ opacity: overlayOpacity }}
-            className="absolute inset-0 bg-black/30 flex flex-col items-center justify-end pb-24 text-white text-center"
-          >
-            <h2 className="font-serif text-4xl mb-2 drop-shadow-lg">Jongho & Inhee</h2>
-            <p className="font-sans text-sm tracking-[0.2em] opacity-90 drop-shadow-md">2026.04.26 SUN</p>
-          </motion.div>
-        </motion.div>
+        </div>
 
         {/* --- Initial Floating Text (사진 위에 떠 있는 텍스트) --- */}
-        <motion.div
+        <div
           style={{ opacity: textOpacity }}
           className="absolute top-0 w-full h-[35%] z-20 flex flex-col items-center justify-center pt-8 pointer-events-none text-white"
         // 배경 사진 위에서 잘 보이도록 글자색이나 drop-shadow를 고려해보세요
@@ -120,8 +111,8 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           <h1 className="font-hand text-3xl text-wood-900 drop-shadow-md">
             이종호 <span className="text-xl mx-1">&</span> 김인희
           </h1>
-          <p className="mt-4 text-[10px] font-sans text-wood-900 tracking-[0.2em]">2026.04.26 SUN 13:50</p>
-        </motion.div>
+          <p className="mt-4 text-[10px] font-sans text-wood-900 tracking-[0.2em]">2026.04.26 SUN 13:40</p>
+        </div>
 
       </div>
     </div>
