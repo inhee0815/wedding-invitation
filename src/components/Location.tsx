@@ -86,9 +86,9 @@ const Location: React.FC = () => {
     <>
       <section className="py-16 px-6 bg-paper">
         <div className="text-center mb-8">
-          <span className="text-wood-800 text-sm tracking-widest font-serif border-b border-wood-300 pb-1">LOCATION</span>
-          <h3 className="mt-6 text-xl font-bold text-wood-900">가천컨벤션센터</h3>
-          <p className="mt-2 text-stone-600 text-sm">{address}</p>
+          <span className="text-wood-800 text-sm tracking-widest font-cinzel font-medium border-b border-wood-300 pb-1">LOCATION</span>
+          <h3 className="mt-6 text-xl font-gothic font-bold text-wood-900">가천컨벤션센터</h3>
+          <p className="mt-2 text-stone-600 text-sm font-gothic">{address}</p>
           <button
             onClick={handleCopyAddress}
             className="mt-3 text-xs text-stone-500 border border-stone-200 px-3 py-1.5 rounded-full inline-flex items-center gap-1 hover:bg-stone-50"
@@ -157,11 +157,11 @@ const Location: React.FC = () => {
             <div className="flex items-start gap-4">
               <div className="mt-1 p-2 rounded-lg"><Train size={18} className="text-wood-700" /></div>
               <div>
-                <h4 className="text-[14px] font-bold text-wood-900 mb-2">지하철 이용 시</h4>
+                <h4 className="text-[14px] font-gothic font-bold text-wood-900 mb-2">지하철 이용 시</h4>
                 <div className="text-[13px] leading-relaxed text-stone-500">
                   <span className="inline-block px-1.5 py-0.5 rounded bg-[#EBA900] text-white text-[10px] mr-1">수인분당선</span>
-                  <span className="font-bold text-stone-700">가천대역</span> 1번 출구
-                  <p className="mt-1 text-[12px] text-stone-400">비전타워 통로를 통해 예식장까지 연결됩니다.</p>
+                  <span className="font-gothic text-stone-700"><span className="font-bold">가천대역 1번</span> 출구</span>
+                  <p className="font-gothic mt-1 text-[12px] text-stone-400">비전타워 통로를 통해 예식장까지 연결됩니다.</p>
                 </div>
               </div>
             </div>
@@ -172,10 +172,10 @@ const Location: React.FC = () => {
             <div className="flex items-start gap-4">
               <div className="mt-1 p-2"><Bus size={18} className="text-wood-700" /></div>
               <div>
-                <h4 className="text-[14px] font-bold text-wood-900 mb-2">버스 이용 시</h4>
-                <p className="text-[13px] leading-relaxed text-stone-500 font-bold text-stone-700">가천대역.가천대학교 하차</p>
-                <p className="mt-1 text-[12px] text-stone-400">간선 302, 303, 333, 440, 452</p>
-                <p className="text-[12px] text-stone-400">일반 116, 119, 15-1, 32, 5, 500-1</p>
+                <h4 className="text-[14px] font-gothic font-bold text-wood-900 mb-2">버스 이용 시</h4>
+                <p className="text-[13px] leading-relaxed text-stone-500 font-gothic font-bold text-stone-700">가천대역.가천대학교 하차</p>
+                <p className="mt-1 text-[12px] text-stone-400 font-gothic">간선 302, 303, 333, 440, 452</p>
+                <p className="text-[12px] text-stone-400 font-gothic">일반 116, 119, 15-1, 32, 5, 500-1</p>
               </div>
             </div>
           </div>
@@ -185,11 +185,11 @@ const Location: React.FC = () => {
             <div className="flex items-start gap-4">
               <div className="mt-1 p-2"><Car size={18} className="text-wood-700" /></div>
               <div>
-                <h4 className="text-[14px] font-bold text-wood-900 mb-2">자가용 및 주차</h4>
-                <p className="text-[13px] leading-relaxed text-stone-500">
-                  <span className="text-wood-800 font-bold">비전타워 주차장 B3 ~ B4층</span> 이용
+                <h4 className="text-[14px] font-gothic font-bold text-wood-900 mb-2">자가용 및 주차</h4>
+                <p className="text-[13px] leading-relaxed text-stone-500 font-gothic">
+                  <span className="text-wood-800 font-gothic font-bold">비전타워 주차장 B3 ~ B4층</span> 이용
                 </p>
-                <p className="mt-1 text-[12px] text-stone-400">내비게이션에 '가천컨벤션센터' 검색</p>
+                <p className="mt-1 text-[12px] text-stone-400 font-gothic">내비게이션에 '가천컨벤션센터' 검색</p>
               </div>
             </div>
           </div>

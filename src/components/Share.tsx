@@ -31,13 +31,13 @@ const Share: React.FC = () => {
       <div className="flex justify-center gap-4">
         <button
           onClick={handleKakaoShare}
-          className="flex items-center gap-2 bg-[#FEE500] text-[#000000] px-6 py-3 rounded-md text-sm font-medium hover:bg-[#FDD835] transition-colors"
+          className="flex items-center gap-2 bg-[#FEE500] text-[#000000] px-6 py-3 rounded-md font-gothic text-sm font-bold hover:bg-[#FDD835] transition-colors"
         >
           <Share2 size={16} /> 카카오톡 공유
         </button>
         <button
           onClick={handleCopyLink}
-          className="flex items-center gap-2 bg-white text-stone-700 border border-stone-200 px-6 py-3 rounded-md text-sm font-medium hover:bg-stone-50 transition-colors"
+          className="flex items-center gap-2 bg-white text-stone-700 border border-stone-200 px-6 py-3 rounded-md font-gothic text-sm font-bold hover:bg-stone-50 transition-colors"
         >
           <Copy size={16} /> 주소 복사
         </button>

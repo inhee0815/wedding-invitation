@@ -68,8 +68,8 @@ const Guestbook: React.FC = () => {
     <section className="py-16 px-6 bg-paper">
       <div className="max-w-md mx-auto">
         <div className="flex flex-col items-center mb-8">
-          <span className="text-wood-800 text-sm tracking-widest font-serif border-b border-wood-300 pb-1">GUESTBOOK</span>
-          <div className="flex items-center gap-1 mt-4 text-xs text-stone-500">
+          <span className="text-wood-800 text-sm tracking-widest font-cinzel font-medium border-b border-wood-300 pb-1">GUESTBOOK</span>
+          <div className="flex items-center gap-1 mt-4 font-gothic text-xs text-stone-500">
             <span>방명록</span>
           </div>
         </div>
@@ -81,7 +81,7 @@ const Guestbook: React.FC = () => {
               placeholder="이름"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full border-b border-stone-300 py-2 px-1 text-sm focus:outline-none focus:border-wood-800 transition-colors bg-transparent placeholder-stone-400"
+              className="w-full border-b border-stone-300 py-2 px-1 font-gothic text-xs focus:outline-none focus:border-wood-800 transition-colors bg-transparent placeholder-stone-400"
               maxLength={10}
               required
             />
@@ -91,7 +91,7 @@ const Guestbook: React.FC = () => {
               placeholder="축하 메시지를 남겨주세요"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full border border-stone-300 rounded-md p-3 text-sm focus:outline-none focus:border-wood-800 transition-colors bg-stone-50 placeholder-stone-400 h-24 resize-none"
+              className="w-full border border-stone-300 rounded-md p-3 font-gothic text-xs focus:outline-none focus:border-wood-800 transition-colors bg-stone-50 placeholder-stone-400 h-24 resize-none"
               maxLength={100}
               required
             />
@@ -99,7 +99,7 @@ const Guestbook: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-wood-800 text-white py-3 text-sm tracking-widest hover:bg-wood-900 transition-colors disabled:opacity-50 rounded-lg "
+            className="w-full bg-wood-800 text-white py-3 font-gothic text-sm tracking-widest hover:bg-wood-900 transition-colors disabled:opacity-50 rounded-lg "
           >
             {isSubmitting ? '저장중...' : '등록하기'}
           </button>
@@ -121,7 +121,7 @@ const Guestbook: React.FC = () => {
                   className="bg-white p-4 rounded-lg shadow-sm border border-stone-100"
                 >
                   <div className="flex justify-between items-baseline mb-2">
-                    <span className="font-bold text-wood-900 text-sm">{entry.name}</span>
+                    <span className="font-gothic font-bold text-wood-900 text-sm">{entry.name}</span>
                     <span className="text-[12px] text-stone-400">{formatDate(entry.date)}</span>
                   </div>
                   <p className="text-stone-600 text-sm whitespace-pre-wrap leading-relaxed font-hand">{entry.message}</p>

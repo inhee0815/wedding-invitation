@@ -42,8 +42,8 @@ const ContactGroup: React.FC<ContactGroupProps> = ({ title, people }) => {
                   {/* 연락처 영역 */}
                   <div className="flex justify-between items-center">
                     <div>
-                      <span className="text-xs text-stone-400 block mb-0.5">{person.role}</span>
-                      <span className="text-stone-800 font-medium">{person.name}</span>
+                      <span className="font-gothic text-xs text-stone-400 block mb-0.5">{person.role}</span>
+                      <span className="font-gothic text-[14px] text-stone-800 font-bold">{person.name}</span>
                     </div>
                     <div className="flex gap-3">
                       {/* Pay Button next to Phone/SMS */}
@@ -88,7 +88,7 @@ const ContactGroup: React.FC<ContactGroupProps> = ({ title, people }) => {
                           : 'bg-white text-stone-500 border border-stone-200'
                           }`}
                       >
-                        {copied ? <Check size={12} /> : <Copy size={12} />}
+                        {copied ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
                         {copied ? "완료" : "복사"}
                       </button>
                     </div>
@@ -110,8 +110,8 @@ const Contact: React.FC = () => {
   return (
     <section className="py-16 px-6 bg-paper">
       <div className="text-center mb-8">
-        <span className="text-wood-800 text-sm tracking-widest font-serif border-b border-wood-300 pb-1">CONTACT</span>
-        <p className="mt-4 text-stone-500 text-xs">마음 전하실 곳</p>
+        <span className="text-wood-800 text-sm tracking-widest font-cinzel font-medium border-b border-wood-300 pb-1">CONTACT</span>
+        <p className="mt-4 text-stone-500 text-xs font-gothic">마음 전하실 곳</p>
 
       </div>
 

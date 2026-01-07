@@ -101,8 +101,8 @@ const Gallery: React.FC = () => {
   return (
     <section className="py-16 bg-white">
       <div className="px-6 mb-8 text-center">
-        <span className="text-wood-800 text-sm tracking-widest font-serif border-b border-wood-300 pb-1">GALLERY</span>
-        <p className="mt-4 text-stone-500 text-xs">순간의 기록들</p>
+        <span className="text-wood-800 text-sm tracking-widest font-cinzel font-medium border-b border-wood-300 pb-1">GALLERY</span>
+        <p className="mt-4 text-stone-500 font-gothic text-xs">순간의 기록들</p>
       </div>
 
       {/* Grid Layout */}
