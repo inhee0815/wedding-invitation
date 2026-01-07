@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
-import { Phone, MessageCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import { Phone, MessageCircle, ChevronDown, ChevronUp, Check, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ContactGroupProps {
   title: string;
-  people: { name: string; role: string; phone: string }[];
+  people: { name: string; role: string; phone: string; bank?: string; account?: string, payImageUrl?: string; payUrl?: string }[];
 }
 
 const ContactGroup: React.FC<ContactGroupProps> = ({ title, people }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyAccount = (account?: string) => {
+    if (!account) return;
+    navigator.clipboard.writeText(account);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className="border border-stone-200 rounded-lg overflow-hidden bg-white mb-4">
@@ -27,21 +35,67 @@ const ContactGroup: React.FC<ContactGroupProps> = ({ title, people }) => {
             exit={{ height: 0 }}
             className="overflow-hidden"
           >
-            <div className="p-5 space-y-4">
+            <div className="p-5 space-y-6"> {/* 간격을 조금 더 넓혔습니다 */}
               {people.map((person, idx) => (
-                <div key={idx} className="flex justify-between items-center border-b border-stone-100 last:border-0 pb-3 last:pb-0">
-                  <div>
-                    <span className="text-xs text-stone-400 block mb-0.5">{person.role}</span>
-                    <span className="text-stone-800 font-medium">{person.name}</span>
+                // 각 인물을 감싸는 최상위 div (key 위치)
+                <div key={idx} className="space-y-3">
+                  {/* 연락처 영역 */}
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span className="text-xs text-stone-400 block mb-0.5">{person.role}</span>
+                      <span className="text-stone-800 font-medium">{person.name}</span>
+                    </div>
+                    <div className="flex gap-3">
+                      {/* Pay Button next to Phone/SMS */}
+                      {person.payUrl && (
+                        <a
+                          href={person.payUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-9 h-9 bg-[#FFEB00] text-[#191919] rounded-full hover:brightness-95 active:scale-95 transition-all flex items-center justify-center shadow-sm overflow-hidden"
+                          title="페이 송금"
+                        >
+                          {person.payImageUrl ? (
+                            <img
+                              src={person.payImageUrl}
+                              alt="KakaoPay"
+                            />
+                          ) : (
+                            <span className="text-[9px] font-black italic leading-none tracking-tighter">pay</span>
+                          )}
+                        </a>
+                      )}
+                      <a href={`tel:${person.phone}`} className="p-2 bg-green-50 text-green-600 rounded-full hover:bg-green-200 transition-colors">
+                        <Phone size={18} />
+                      </a>
+                      <a href={`sms:${person.phone}`} className="p-2 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-200 transition-colors">
+                        <MessageCircle size={18} />
+                      </a>
+                    </div>
                   </div>
-                  <div className="flex gap-3">
-                    <a href={`tel:${person.phone}`} className="p-2 bg-green-50 text-green-600 rounded-full hover:bg-green-100">
-                      <Phone size={18} />
-                    </a>
-                    <a href={`sms:${person.phone}`} className="p-2 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100">
-                      <MessageCircle size={18} />
-                    </a>
-                  </div>
+
+                  {/* 계좌 정보 영역 (데이터가 있을 때만 노출) */}
+                  {person.account && (
+                    <div className="flex items-center justify-between bg-stone-50/80 rounded-xl p-3 border border-stone-100">
+                      <div className="text-[13px] text-stone-600">
+                        <span className="font-medium mr-2">{person.bank}</span>
+                        <span className="font-sans tabular-nums tracking-tight">{person.account}</span>
+                      </div>
+                      <button
+                        onClick={() => handleCopyAccount(person.account)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${copied === person.account // 특정 계좌가 복사되었는지 확인하는 로직 권장
+                          ? 'bg-wood-800 text-white'
+                          : 'bg-white text-stone-500 border border-stone-200'
+                          }`}
+                      >
+                        {copied ? <Check size={12} /> : <Copy size={12} />}
+                        {copied ? "완료" : "복사"}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* 마지막 요소가 아니면 구분선 표시 */}
+                  {idx !== people.length - 1 && <div className="border-b border-stone-100 pt-3" />}
                 </div>
               ))}
             </div>
@@ -57,7 +111,8 @@ const Contact: React.FC = () => {
     <section className="py-16 px-6 bg-paper">
       <div className="text-center mb-8">
         <span className="text-wood-800 text-sm tracking-widest font-serif border-b border-wood-300 pb-1">CONTACT</span>
-        <p className="mt-4 text-stone-500 text-xs">축하의 마음을 전해주세요</p>
+        <p className="mt-4 text-stone-500 text-xs">마음 전하실 곳</p>
+
       </div>
 
       <div className="max-w-md mx-auto">
@@ -72,7 +127,10 @@ const Contact: React.FC = () => {
         <ContactGroup
           title="신부"
           people={[
-            { name: "김인희", role: "신부", phone: "010-5006-7909" },
+            {
+              name: "김인희", role: "신부", phone: "010-5006-7909", bank: "우리은행", account: "1002-043-614444", payUrl: "https://qr.kakaopay.com/Ej82u7A9S",
+              payImageUrl: "images/payment_icon_yellow_small.png"
+            },
             { name: "김수원", role: "아버지", phone: "010-0000-0000" },
             { name: "윤영미", role: "어머니", phone: "010-0000-0000" }
           ]}
