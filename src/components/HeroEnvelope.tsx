@@ -80,25 +80,29 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   };
 
   return (
-    <div ref={containerRef} className="h-[110dvh] relative w-full bg-paper">
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-center">
+    <div ref={containerRef} className="h-[85dvh] relative w-full bg-paper">
+      <div className="sticky top-0 h-[85dvh] w-full overflow-hidden flex flex-col items-center justify-center">
 
         {/* --- Background: 사진 레이어 (크기 고정) --- */}
         <div
+          style={{
+            // 이제 변하는 값(scale, y) 없이 고정된 스타일만 부여합니다.
+            zIndex: 10,
+            willChange: "auto", // 애니메이션이 없으므로 auto로 설정해 메모리 절약
+          }}
           className="absolute inset-0 w-full overflow-hidden bg-stone-200"
         >
           <img
             src="images/gallery10.jpg"
             alt="Wedding Couple"
-            className="w-full object-cover"
+            className="w-full h-[85dvh] object-cover"
             fetchPriority="high"
-          // 인앱 브라우저 최적화: 이미지 자체에 불필요한 motion이나 연산 제거
           />
         </div>
 
         {/* --- Initial Floating Text (사진 위에 떠 있는 텍스트) --- */}
         <div
-          className="absolute inset-0 z-20 flex flex-col items-center justify-start pt-[15dvh] pointer-events-none"        // 배경 사진 위에서 잘 보이도록 글자색이나 drop-shadow를 고려해보세요
+          className="absolute inset-0 z-20 flex flex-col items-center justify-start pt-[10dvh] pointer-events-none"        // 배경 사진 위에서 잘 보이도록 글자색이나 drop-shadow를 고려해보세요
         >
           <p className="font-hand text-xs text-wood-900 tracking-[0.3em] mb-3 uppercase">the new beginning</p>
           <h1 className="font-hand text-3xl text-wood-900 drop-shadow-md">
