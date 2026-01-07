@@ -8,12 +8,12 @@ interface HeroEnvelopeProps {
 const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasOpened, setHasOpened] = useState(false);
-  const [fixedHeight, setFixedHeight] = useState<string>('85vh'); // 초기값
+  const [fixedHeight, setFixedHeight] = useState<string>('90vh'); // 초기값
   const [fixedPaddingTop, setFixedPaddingTop] = useState<string>('12vh'); // 텍스트 위치 고정용
 
   // [핵심] 인앱 브라우저의 가변 높이를 고정된 픽셀값으로 변경
   useEffect(() => {
-    const vh = window.innerHeight * 0.85;
+    const vh = window.innerHeight * 0.9;
     setFixedHeight(`${vh}px`); // 85dvh에 해당하는 값을 픽셀로 고정
     setFixedPaddingTop(`${vh * 0.12}px`); // 12dvh를 px로 변환
   }, []);
