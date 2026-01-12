@@ -43,38 +43,38 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
     return () => clearTimeout(timer);
   }, [onOpened]);
 
+  const colors = [
+    '#FFD700', // Gold
+    '#fca4d0ff', // Pale Pink
+    // '#a7dcedff', // Deep Sky Blue
+    // '#FF4500', // Orange Red
+    // '#E6E6FA', // Lavender
+  ];
+
   const fireConfetti = async () => {
     const { default: confetti } = await import('canvas-confetti');
 
     const duration = 6 * 1000;
     const end = Date.now() + duration;
 
-    // 위에서 은은하게 눈처럼 내리는 무지개빛 컨페티
-    const frame = () => {
+    // 100ms(0.1초)마다 하나씩 생성 (초당 10개)
+    const interval = setInterval(() => {
+      if (Date.now() > end) {
+        return clearInterval(interval);
+      }
+
       confetti({
-        particleCount: 5,
+        particleCount: 1,
         startVelocity: 0,
         ticks: 300,
-        origin: {
-          x: Math.random(),
-          y: Math.random() - 0.2 // 화면 상단 밖에서 시작
-        },
-        // 무지개빛 팔레트: 골드, 핑크, 블루, 퍼플, 피치 등
-        colors: [
-          '#FFD700', // Gold
-          '#FF69B4', // Hot Pink
-        ],
-        shapes: ['circle'],
-        gravity: 0.35, // 조금 더 천천히 떨어지게 조정
-        scalar: Math.random() * 0.5 + 0.4, // 크기 다양화
+        origin: { x: Math.random(), y: Math.random() - 0.2 },
+        colors: [colors[Math.floor(Math.random() * colors.length)]],
+        shapes: ['square', 'circle'],
+        gravity: 0.25,
+        scalar: Math.random() * 0.5 + 0.4,
         drift: Math.random() - 0.5,
       });
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    };
-    frame();
+    }, 20); // 이 숫자를 키울수록(예: 200) 입자가 더 적게 나옵니다.
   };
 
   return (
