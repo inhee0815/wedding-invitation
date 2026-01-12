@@ -87,14 +87,14 @@ const Location: React.FC = () => {
       <section className="py-16 px-6 bg-paper">
         <div className="text-center mb-8">
           <span className="text-wood-800 text-sm tracking-widest font-cinzel font-medium border-b border-wood-300 pb-1">LOCATION</span>
-          <h3 className="mt-6 text-xl font-gothic font-bold text-wood-900">가천컨벤션센터</h3>
+          <h3 className="mt-6 text-xl font-gothic font-bold text-wood-900">가천컨벤션센터 컨벤션홀, 5층</h3>
           <p className="mt-2 text-stone-600 text-sm font-gothic">{address}</p>
           <button
             onClick={handleCopyAddress}
             className="mt-3 text-xs text-stone-500 border border-stone-200 px-3 py-1.5 rounded-full inline-flex items-center gap-1 hover:bg-stone-50"
           >
             {copied ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
-            {copied ? "복사되었습니다" : "주소 복사"}
+            {copied ? "완료" : "주소 복사"}
           </button>
         </div>
 

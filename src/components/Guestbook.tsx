@@ -111,23 +111,32 @@ const Guestbook: React.FC = () => {
               <span className="text-stone-400 text-xs animate-pulse">메시지 불러오는 중...</span>
             </div>
           ) : (
-            <AnimatePresence>
-              {(entries || []).slice(0, visibleCount).map((entry) => (
-                <motion.li
-                  key={entry.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  className="bg-white p-4 rounded-lg shadow-sm border border-stone-100"
-                >
-                  <div className="flex justify-between items-baseline mb-2">
-                    <span className="font-gothic font-bold text-wood-900 text-sm">{entry.name}</span>
-                    <span className="text-[12px] text-stone-400">{formatDate(entry.date)}</span>
+            <>
+              {
+                entries.length === 0 && (
+                  <div className="text-center py-8 text-stone-400 font-gothic text-xs">
+                    아직 작성된 메시지가 없습니다.<br />첫 번째 축하 글을 남겨주세요!
                   </div>
-                  <p className="text-stone-600 text-sm whitespace-pre-wrap leading-relaxed font-hand">{entry.message}</p>
-                </motion.li>
-              ))}
-            </AnimatePresence>
+                )
+              }
+              <AnimatePresence>
+                {(entries || []).slice(0, visibleCount).map((entry) => (
+                  <motion.li
+                    key={entry.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="bg-white p-4 rounded-lg shadow-sm border border-stone-100"
+                  >
+                    <div className="flex justify-between items-baseline mb-2">
+                      <span className="font-gothic font-bold text-wood-900 text-sm">{entry.name}</span>
+                      <span className="text-[12px] text-stone-400">{formatDate(entry.date)}</span>
+                    </div>
+                    <p className="text-stone-600 text-sm whitespace-pre-wrap leading-relaxed font-hand">{entry.message}</p>
+                  </motion.li>
+                ))}
+              </AnimatePresence>
+            </>
           )}
         </ul>
         {!isLoading && (entries || []).length > visibleCount && (
@@ -139,7 +148,7 @@ const Guestbook: React.FC = () => {
           </div>
         )}
       </div>
-    </section>
+    </section >
   );
 };
 

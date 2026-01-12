@@ -13,7 +13,7 @@ interface Particle {
 }
 
 const LikeSection: React.FC = () => {
-  const [likes, setLikes] = useState(154);
+  const [likes, setLikes] = useState(0);
   const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {

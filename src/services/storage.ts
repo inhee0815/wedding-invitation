@@ -79,11 +79,11 @@ export const getLikes = async (): Promise<number> => {
     if (error) {
       // If table doesn't exist or row missing, fail gracefully
       console.warn('Could not fetch likes:', error.message);
-      return 154;
+      return 0;
     }
-    return data?.count || 154;
+    return data?.count || 0;
   } catch (e) {
-    return 154;
+    return 0;
   }
 };
 
@@ -97,7 +97,7 @@ export const incrementLike = async (): Promise<number> => {
       .eq('id', 'main')
       .single();
 
-    const currentCount = currentData?.count || 154;
+    const currentCount = currentData?.count || 0;
     const newCount = currentCount + 1;
 
     // Update
