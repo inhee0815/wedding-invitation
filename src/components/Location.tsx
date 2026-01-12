@@ -150,32 +150,39 @@ const Location: React.FC = () => {
               onClick={(e) => handleNavigation(e, 'naverMap')}
               className="flex items-center justify-center gap-1.5 bg-white border border-stone-100 rounded-md py-4 px-1 hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
             >
-              <div className="w-4 h-4 rounded-sm bg-[#03C75A] flex items-center justify-center text-white font-bold text-[8px]">
-                N
-              </div>
-              <span className="text-[10px] text-stone-700 font-medium truncate">네이버맵</span>
+              <img src="images/navi/ico_nav01.png" alt="Naver" className="w-5 h-5 object-contain rounded-sm" onError={(e) => {
+                (e.target as any).style.display = 'none';
+                (e.target as any).nextSibling.style.display = 'flex';
+              }} />
+              {/* Fallback Icon if image fails */}
+              <div className="hidden w-5 h-5 rounded-sm bg-[#03C75A] items-center justify-center text-white font-bold text-[8px]">N</div>
+              <span className="text-[12px] text-stone-700 font-medium truncate">네이버맵</span>
             </button>
 
             <button
               onClick={(e) => handleNavigation(e, 'tmap')}
               className="flex items-center justify-center gap-1.5 bg-white border border-stone-100 rounded-md py-2 px-1 hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
             >
-              <div className="w-4 h-4 rounded-sm bg-gradient-to-br from-[#00C73C] to-[#004C8C] flex items-center justify-center text-white font-bold text-[8px]">
-                T
-              </div>
-              <span className="text-[10px] text-stone-700 font-medium truncate">티맵</span>
+              <img src="images/navi/ico_nav02.png" alt="Tmap" className="w-5 h-5 object-contain rounded-sm" onError={(e) => {
+                (e.target as any).style.display = 'none';
+                (e.target as any).nextSibling.style.display = 'flex';
+              }} />
+              {/* Fallback Icon */}
+              <div className="hidden w-5 h-5 rounded-sm bg-[#004C8C] items-center justify-center text-white font-bold text-[8px]">T</div>
+              <span className="text-[12px] text-stone-700 font-medium truncate">티맵</span>
             </button>
 
             <button
               onClick={(e) => handleNavigation(e, 'kakaoNavi')}
               className="flex items-center justify-center gap-1.5 bg-white border border-stone-100 rounded-md py-2 px-1 hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
             >
-              <div className="w-4 h-4 rounded-sm bg-[#FEE500] flex items-center justify-center text-[#191919] shadow-sm">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-2.5 h-2.5">
-                  <path d="M12 3L4 19L12 15L20 19L12 3Z" />
-                </svg>
-              </div>
-              <span className="text-[10px] text-stone-700 font-medium truncate">카카오내비</span>
+              <img src="images/navi/ico_nav03.png" alt="Kakao" className="w-5 h-5 object-contain rounded-sm" onError={(e) => {
+                (e.target as any).style.display = 'none';
+                (e.target as any).nextSibling.style.display = 'flex';
+              }} />
+              {/* Fallback Icon */}
+              <div className="hidden w-5 h-5 rounded-sm bg-[#FEE500] items-center justify-center text-[#191919] shadow-sm font-bold text-[8px]">K</div>
+              <span className="text-[12px] text-stone-700 font-medium truncate">카카오내비</span>
             </button>
           </div>
         </div>
