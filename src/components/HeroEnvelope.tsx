@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 
 interface HeroEnvelopeProps {
   onOpened: () => void;
@@ -7,7 +8,7 @@ interface HeroEnvelopeProps {
 
 const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [hasOpened, setHasOpened] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [fixedHeight, setFixedHeight] = useState<string>('90vh'); // 초기값
   const [fixedPaddingTop, setFixedPaddingTop] = useState<string>('12vh'); // 텍스트 위치 고정용
 
@@ -32,41 +33,48 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   // 텍스트 투명도 조절
   const textOpacity = useTransform(smoothProgress, [0, 0.15], [1, 0]);
 
-  // 컨페티 트리거
   useEffect(() => {
-    const unsubscribe = smoothProgress.on("change", (latest) => {
-      // 스크롤 영역이 짧으므로 트리거 지점을 0.4 정도로 낮춤
-      if (latest > 0.4 && !hasOpened) {
-        setHasOpened(true);
-        onOpened();
-        fireConfetti();
-      }
-    });
-    return () => unsubscribe();
-  }, [hasOpened, smoothProgress, onOpened]);
+    // 마운트 후 애니메이션 시작을 위한 짧은 지연
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+      fireConfetti();
+      onOpened();
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [onOpened]);
 
   const fireConfetti = async () => {
     const { default: confetti } = await import('canvas-confetti');
-    const duration = 1500;
+
+    const duration = 6 * 1000;
     const end = Date.now() + duration;
 
-    (function frame() {
+    // 위에서 은은하게 눈처럼 내리는 무지개빛 컨페티
+    const frame = () => {
       confetti({
-        particleCount: 4,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0, y: 0.7 }, // y 좌표를 약간 올려서 하단바에 안 가려지게 함
-        colors: ['#ffffff', '#a6eaa6'],
+        particleCount: 5,
+        startVelocity: 0,
+        ticks: 300,
+        origin: {
+          x: Math.random(),
+          y: Math.random() - 0.2 // 화면 상단 밖에서 시작
+        },
+        // 무지개빛 팔레트: 골드, 핑크, 블루, 퍼플, 피치 등
+        colors: [
+          '#FFD700', // Gold
+          '#FF69B4', // Hot Pink
+        ],
+        shapes: ['circle'],
+        gravity: 0.35, // 조금 더 천천히 떨어지게 조정
+        scalar: Math.random() * 0.5 + 0.4, // 크기 다양화
+        drift: Math.random() - 0.5,
       });
-      confetti({
-        particleCount: 4,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1, y: 0.7 },
-        colors: ['#ffffff', '#a6eaa6'],
-      });
-      if (Date.now() < end) requestAnimationFrame(frame);
-    })();
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
   };
 
   return (
@@ -109,7 +117,21 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
           <p className="mt-4 text-[10px] font-sans text-wood-900 tracking-[0.2em]">2026.04.26 SUN 13:40</p>
         </motion.div>
       </div>
-    </div>
+      {/* 하단 스크롤 안내 */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-wood/60"
+      >
+        <span className="text-[8px] tracking-[0.4em] uppercase font-sans font-light">Scroll Down</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown size={18} strokeWidth={1} />
+        </motion.div>
+      </motion.div>
+    </div >
   );
 };
 
