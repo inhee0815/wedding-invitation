@@ -44,8 +44,9 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
   }, [onOpened]);
 
   const colors = [
-    '#FFD700', // Gold
+    '#ffd700', // Gold
     '#fca4d0ff', // Pale Pink
+    '#a6eaa6'
     // '#a7dcedff', // Deep Sky Blue
     // '#FF4500', // Orange Red
     // '#E6E6FA', // Lavender
@@ -72,9 +73,9 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
         shapes: ['square', 'circle'],
         gravity: 0.25,
         scalar: Math.random() * 0.5 + 0.4,
-        drift: Math.random() - 0.5,
+        drift: Math.random() * 1.3 - 1,
       });
-    }, 20); // 이 숫자를 키울수록(예: 200) 입자가 더 적게 나옵니다.
+    }, 50); // 이 숫자를 키울수록(예: 200) 입자가 더 적게 나옵니다.
   };
 
   return (
