@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MapPin, Navigation, Bus, Train, Car, Copy, Check } from 'lucide-react';
+import { CallWeb2App } from '../utils/callweb2app';
 
 declare global {
   interface Window {
@@ -11,11 +12,12 @@ const Location: React.FC = () => {
   // Constants for Navigation
   const NAV_INFO = {
     name: "가천컨벤션센터",
+    encodedName: encodeURIComponent("가천컨벤션센터"),
     lat: 37.4497253,
     lng: 127.127107,
   };
 
-  const mapUrl = `https://map.kakao.com/link/to/가천컨벤션센터,${NAV_INFO.lat},${NAV_INFO.lng}`;
+  const mapUrl = `https://map.kakao.com/link/to/${NAV_INFO.name},${NAV_INFO.lat},${NAV_INFO.lng}`;
   const address = "경기 성남시 수정구 성남대로 1342 (태평동 650)";
 
   const [copied, setCopied] = useState(false);
@@ -34,22 +36,39 @@ const Location: React.FC = () => {
     e.preventDefault();
 
     const { name, lat, lng } = NAV_INFO;
+    let options: any = {};
+    const encodedName = encodeURIComponent(name);
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isIos = /iphone|ipad|ipod/.test(userAgent);
 
+    const msg = '앱이 설치되어 있지 않은 경우\n길 안내가 실행되지 않을 수 있습니다';
     switch (type) {
-      case 'kakaoMap':
-        window.location.href = mapUrl;
+      case 'kakaoNavi':
+        options = {
+          scheme: `kakaonavi://destination?x=${lng}&y=${lat}&name=${encodedName}`,
+          package: 'com.locnall.KimGiSa',
+          fallbackUrl: `https://map.kakao.com/link/to/${name},${lat},${lng}`
+        };
         break;
-
       case 'tmap':
-        window.location.href = `tmap://route?goalx=${lng}&goaly=${lat}&goalname=${name}`;
+        options = {
+          scheme: `tmap://route?goalx=${lng}&goaly=${lat}&goalname=${encodedName}`,
+          package: 'com.skt.tmap.ku',
+          fallbackUrl: ''
+        };
         break;
-
       case 'naverMap':
-        const webUrl = `http://map.naver.com/index.nhn?elng=${lng}&elat=${lat}&etext=${name}&menu=route&pathType=0`;
-
-        window.location.href = webUrl;
+        options = {
+          scheme: `navermaps://?menu=location&pinType=place&lat=${lat}&lng=${lng}&title=${encodedName}`,
+          package: 'com.nhn.android.nmap',
+          fallbackUrl: `http://map.naver.com/index.nhn?elng=${lng}&elat=${lat}&etext=${name}&menu=route&pathType=0`
+        };
         break;
     }
+
+    const callWeb2App = new CallWeb2App(options);
+    callWeb2App.run();
+
   };
   // Kakao Map 로딩 로직
   useEffect(() => {
@@ -127,26 +146,38 @@ const Location: React.FC = () => {
 
         {/* Navigation Grid */}
         <div className="mb-12">
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { id: 'naverMap', name: '네이버', color: '#03C75A', icon: 'N' },
-              { id: 'tmap', name: '티맵', color: '#111111', icon: 'T' },
-              { id: 'kakaoMap', name: '카카오', color: '#FEE500', icon: 'K' }
-            ].map((app) => (
-              <button
-                key={app.id}
-                onClick={(e: any) => { handleNavigation(e, app.id) }}
-                className="flex flex-col items-center py-4 bg-white rounded-xl border border-stone-100 shadow-sm transition-all active:scale-95 hover:bg-stone-50"
-              >
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center mb-2 shadow-sm text-sm font-bold"
-                  style={{ backgroundColor: app.color, color: 'white' }}
-                >
-                  {app.icon}
-                </div>
-                <span className="text-[11px] text-stone-600 font-medium">{app.name}</span>
-              </button>
-            ))}
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              onClick={(e) => handleNavigation(e, 'naverMap')}
+              className="flex items-center justify-center gap-1.5 bg-white border border-stone-100 rounded-md py-4 px-1 hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
+            >
+              <div className="w-4 h-4 rounded-sm bg-[#03C75A] flex items-center justify-center text-white font-bold text-[8px]">
+                N
+              </div>
+              <span className="text-[10px] text-stone-700 font-medium truncate">네이버맵</span>
+            </button>
+
+            <button
+              onClick={(e) => handleNavigation(e, 'tmap')}
+              className="flex items-center justify-center gap-1.5 bg-white border border-stone-100 rounded-md py-2 px-1 hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
+            >
+              <div className="w-4 h-4 rounded-sm bg-gradient-to-br from-[#00C73C] to-[#004C8C] flex items-center justify-center text-white font-bold text-[8px]">
+                T
+              </div>
+              <span className="text-[10px] text-stone-700 font-medium truncate">티맵</span>
+            </button>
+
+            <button
+              onClick={(e) => handleNavigation(e, 'kakaoNavi')}
+              className="flex items-center justify-center gap-1.5 bg-white border border-stone-100 rounded-md py-2 px-1 hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
+            >
+              <div className="w-4 h-4 rounded-sm bg-[#FEE500] flex items-center justify-center text-[#191919] shadow-sm">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-2.5 h-2.5">
+                  <path d="M12 3L4 19L12 15L20 19L12 3Z" />
+                </svg>
+              </div>
+              <span className="text-[10px] text-stone-700 font-medium truncate">카카오내비</span>
+            </button>
           </div>
         </div>
 
