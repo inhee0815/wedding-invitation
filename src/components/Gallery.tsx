@@ -110,11 +110,11 @@ const Gallery: React.FC = () => {
         {photos.map((photo, index) => (
           <motion.div
             key={photo.id}
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "100px" }} // Changed once: true to prevent flickering
-            transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="aspect-square bg-gray-100 overflow-hidden cursor-pointer relative"
+            viewport={{ once: true, margin: "100px" }}
+            transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
+            className="aspect-square bg-stone-100 overflow-hidden cursor-pointer relative"
             onClick={() => setSelectedPhotoIndex(index)}
           >
             <img
@@ -128,7 +128,7 @@ const Gallery: React.FC = () => {
                 WebkitTouchCallout: 'none',
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
-                pointerEvents: 'none'
+                objectPosition: 'center 30%' // 인물의 머리 부분이 잘리지 않도록 크롭 중심을 상향 조정
               }}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 pointer-events-auto"
               onContextMenu={(e) => e.preventDefault()}
