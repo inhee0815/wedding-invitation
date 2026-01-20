@@ -6,8 +6,8 @@ import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
 // 사진 데이터 정의 (thumbnailPosition을 통해 각 사진의 썸네일 노출 위치를 미세하게 조정 가능)
 const photos: Photo[] = [
-  { id: 1, url: 'images/gallery1.jpg', alt: 'Wedding Photo 1', thumbnailPosition: 'center center' },
-  { id: 2, url: 'images/gallery2.jpg', alt: 'Wedding Photo 2', thumbnailPosition: 'center 40%' },
+  { id: 1, url: 'images/gallery1.jpg', alt: 'Wedding Photo 1', thumbnailPosition: 'center 70%' },
+  { id: 2, url: 'images/gallery2.jpg', alt: 'Wedding Photo 2', thumbnailPosition: 'center 60%' },
   { id: 3, url: 'images/gallery3.jpg', alt: 'Wedding Photo 3', thumbnailPosition: 'center 5%' },
   { id: 4, url: 'images/gallery4.jpg', alt: 'Wedding Photo 4', thumbnailPosition: 'center 5%' },
   { id: 5, url: 'images/gallery5.jpg', alt: 'Wedding Photo 5', thumbnailPosition: 'center 5%' },
@@ -17,7 +17,7 @@ const photos: Photo[] = [
   { id: 9, url: 'images/gallery9.jpg', alt: 'Wedding Photo 9', thumbnailPosition: 'center center' },
   { id: 10, url: 'images/gallery10.jpg', alt: 'Wedding Photo 10', thumbnailPosition: 'center 40%' },
   { id: 11, url: 'images/gallery11.jpg', alt: 'Wedding Photo 11', thumbnailPosition: 'center 40%' },
-  { id: 12, url: 'images/gallery12.jpg', alt: 'Wedding Photo 12', thumbnailPosition: 'center 45%' },
+  { id: 12, url: 'images/gallery12.jpg', alt: 'Wedding Photo 12', thumbnailPosition: 'center 65%' },
   { id: 13, url: 'images/gallery13.jpg', alt: 'Wedding Photo 13', thumbnailPosition: 'center center' },
   { id: 14, url: 'images/gallery14.jpg', alt: 'Wedding Photo 14', thumbnailPosition: 'center 15%' },
   { id: 15, url: 'images/gallery15.jpg', alt: 'Wedding Photo 15', thumbnailPosition: 'center 20%' },
