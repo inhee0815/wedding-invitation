@@ -86,10 +86,7 @@ const ContactGroup: React.FC<ContactGroupProps> = ({ title, people }) => {
                       </div>
                       <button
                         onClick={() => handleCopyAccount(person.account)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${copiedAccount === person.account // 특정 계좌가 복사되었는지 확인하는 로직 권장
-                          ? 'bg-white-800 text-stone'
-                          : 'bg-white text-stone-500 border border-stone-200'
-                          }`}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all bg-white text-stone-500 border border-stone-200`}
                       >
                         {copiedAccount === person.account ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
                         {copiedAccount === person.account ? "완료" : "복사"}
