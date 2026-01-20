@@ -9,6 +9,7 @@ export interface Photo {
   id: number;
   url: string;
   alt: string;
+  thumbnailPosition?: string; // 썸네일 크롭 위치 조정용 (예: 'center 20%')
 }
 
 export interface WeddingInfo {

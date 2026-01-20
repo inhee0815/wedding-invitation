@@ -4,11 +4,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Photo } from '../types';
 import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
-const photos: Photo[] = Array.from({ length: 15 }, (_, i) => ({
-  id: i + 1,
-  url: `images/gallery${i + 1}.jpg`,
-  alt: `Wedding Photo ${i + 1}`,
-}));
+// 사진 데이터 정의 (thumbnailPosition을 통해 각 사진의 썸네일 노출 위치를 미세하게 조정 가능)
+const photos: Photo[] = [
+  { id: 1, url: 'images/gallery1.jpg', alt: 'Wedding Photo 1', thumbnailPosition: 'center center' },
+  { id: 2, url: 'images/gallery2.jpg', alt: 'Wedding Photo 2', thumbnailPosition: 'center 40%' },
+  { id: 3, url: 'images/gallery3.jpg', alt: 'Wedding Photo 3', thumbnailPosition: 'center 5%' },
+  { id: 4, url: 'images/gallery4.jpg', alt: 'Wedding Photo 4', thumbnailPosition: 'center 5%' },
+  { id: 5, url: 'images/gallery5.jpg', alt: 'Wedding Photo 5', thumbnailPosition: 'center 5%' },
+  { id: 6, url: 'images/gallery6.jpg', alt: 'Wedding Photo 6', thumbnailPosition: 'center 10%' },
+  { id: 7, url: 'images/gallery7.jpg', alt: 'Wedding Photo 7', thumbnailPosition: 'center center' },
+  { id: 8, url: 'images/gallery8.jpg', alt: 'Wedding Photo 8', thumbnailPosition: 'center center' },
+  { id: 9, url: 'images/gallery9.jpg', alt: 'Wedding Photo 9', thumbnailPosition: 'center center' },
+  { id: 10, url: 'images/gallery10.jpg', alt: 'Wedding Photo 10', thumbnailPosition: 'center 40%' },
+  { id: 11, url: 'images/gallery11.jpg', alt: 'Wedding Photo 11', thumbnailPosition: 'center 40%' },
+  { id: 12, url: 'images/gallery12.jpg', alt: 'Wedding Photo 12', thumbnailPosition: 'center 45%' },
+  { id: 13, url: 'images/gallery13.jpg', alt: 'Wedding Photo 13', thumbnailPosition: 'center center' },
+  { id: 14, url: 'images/gallery14.jpg', alt: 'Wedding Photo 14', thumbnailPosition: 'center 15%' },
+  { id: 15, url: 'images/gallery15.jpg', alt: 'Wedding Photo 15', thumbnailPosition: 'center 20%' },
+];
 
 // Helper Component for Individual Lightbox Image
 // Manages its own loading state to prevent global flicker
@@ -128,7 +141,8 @@ const Gallery: React.FC = () => {
                 WebkitTouchCallout: 'none',
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
-                objectPosition: 'center 30%' // 인물의 머리 부분이 잘리지 않도록 크롭 중심을 상향 조정
+                // 각 사진마다 지정된 thumbnailPosition 적용, 없으면 기본값 center 20%
+                objectPosition: photo.thumbnailPosition || 'center 20%'
               }}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 pointer-events-auto"
               onContextMenu={(e) => e.preventDefault()}
