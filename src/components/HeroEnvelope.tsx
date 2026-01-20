@@ -92,7 +92,7 @@ const HeroEnvelope: React.FC<HeroEnvelopeProps> = ({ onOpened }) => {
         {/* --- Background: 사진 레이어 --- */}
         <div className="absolute inset-0 w-full h-full z-10 bg-stone-200">
           <img
-            src="images/gallery13.jpg"
+            src="images/main.jpg"
             alt="Wedding Couple"
             // 3. h-full을 주되 부모(fixedHeight)가 고정이므로 더 이상 커지지 않음
             className="w-full h-full object-cover"

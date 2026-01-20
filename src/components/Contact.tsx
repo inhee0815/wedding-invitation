@@ -119,9 +119,12 @@ const Contact: React.FC = () => {
         <ContactGroup
           title="신랑"
           people={[
-            { name: "이종호", role: "신랑", phone: "010-2087-8630" },
-            { name: "이우홍", role: "아버지", phone: "010-0000-0000" },
-            { name: "이현주", role: "어머니", phone: "010-0000-0000" }
+            {
+              name: "이종호", role: "신랑", phone: "010-2087-8630", bank: "우리은행", account: "1002-043-614444", payUrl: "https://qr.kakaopay.com/Ej7rxN2z1",
+              payImageUrl: "images/payment_icon_yellow_small.png"
+            },
+            { name: "이우홍", role: "아버지", phone: "010-0000-0000", bank: "우리은행", account: "1002-043-614444" },
+            { name: "이현주", role: "어머니", phone: "010-0000-0000", bank: "우리은행", account: "1002-043-614444" }
           ]}
         />
         <ContactGroup
@@ -131,8 +134,8 @@ const Contact: React.FC = () => {
               name: "김인희", role: "신부", phone: "010-5006-7909", bank: "우리은행", account: "1002-043-614444", payUrl: "https://qr.kakaopay.com/Ej9G6v3NR",
               payImageUrl: "images/payment_icon_yellow_small.png"
             },
-            { name: "김수원", role: "아버지", phone: "010-2253-7909" },
-            { name: "윤영미", role: "어머니", phone: "010-4166-7909" }
+            { name: "김수원", role: "아버지", phone: "010-2253-7909", bank: "우리은행", account: "1002-043-614444" },
+            { name: "윤영미", role: "어머니", phone: "010-4166-7909", bank: "우리은행", account: "1002-043-614444" }
           ]}
         />
       </div>
