@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Photo } from '../types';
 import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
-const photos: Photo[] = Array.from({ length: 15 }, (_, i) => ({
+const photos: Photo[] = Array.from({ length: 16 }, (_, i) => ({
   id: i + 1,
-  url: `images/gallery${i + 5}.jpg`,
-  alt: `Wedding Photo ${i + 5}`,
+  url: `images/gallery${i + 1}.jpg`,
+  alt: `Wedding Photo ${i + 1}`,
 }));
 
 // Helper Component for Individual Lightbox Image
