@@ -120,7 +120,7 @@ const Contact: React.FC = () => {
           title="신랑"
           people={[
             {
-              name: "이종호", role: "신랑", phone: "010-2087-8630", bank: "신한", account: "110-326-713375", payUrl: "https://qr.kakaopay.com/Ej7rxN2z1",
+              name: "이종호", role: "신랑", phone: "010-2087-8630", bank: "신한", account: "110-441-812826", payUrl: "https://qr.kakaopay.com/Ej7rxN2z1",
               payImageUrl: "images/payment_icon_yellow_small.png"
             },
             { name: "이우홍", role: "아버지", phone: "010-6754-8630", bank: "하나", account: "139-910270-39707" },
