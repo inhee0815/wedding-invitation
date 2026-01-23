@@ -21,6 +21,7 @@ create policy "Enable read access for all users" on guestbook for
 select using (true);
 create policy "Enable insert access for all users" on guestbook for
 insert with check (true);
+create policy "Enable delete for everyone" on guestbook for delete using (true);
 -- 좋아요 정책 (누구나 읽기/업데이트 허용)
 create policy "Enable read access for all users" on likes for
 select using (true);

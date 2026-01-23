@@ -95,7 +95,7 @@ const Guestbook: React.FC = () => {
           <div className="grid grid-cols-2 gap-4 mb-4">
             <input
               type="text"
-              placeholder="이름 (Name)"
+              placeholder="이름"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full border-b border-stone-300 py-2 px-1 text-sm focus:outline-none focus:border-wood-800 transition-colors bg-transparent placeholder-stone-400"
