@@ -16,8 +16,6 @@ export class UserAgent {
 
     checkUserAgent(ua: string) {
         const browser: any = {};
-        // Fix: Explicitly type 'match' as 'any' to handle varying array lengths from different regex results 
-        // and manual tuple fallbacks across the user agent detection logic.
         let match: any = /(dolfin)[ \/]([\w.]+)/.exec(ua) || /(edge)[ \/]([\w.]+)/.exec(ua) || /(chrome)[ \/]([\w.]+)/.exec(ua) || /(opera)(?:.*version)?[ \/]([\w.]+)/.exec(ua) || /(webkit)(?:.*version)?[ \/]([\w.]+)/.exec(ua) || /(msie) ([\w.]+)/.exec(ua) || (ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+))?/.exec(ua)) || ["", "unknown"];
 
         if (match[1] === "webkit") {
@@ -147,7 +145,8 @@ export class CallWeb2App {
                 this.bindVisibilityChangeEvent(tid);
             }
             if (this.isSupportUniversalLinks()) {
-                window.top!.location.replace(context.universalLink || context.urlScheme);
+                // replace 대신 href 사용하여 히스토리 유지
+                window.location.href = context.universalLink || context.urlScheme;
             } else {
                 this.launchAppViaHiddenIframe(context.urlScheme);
             }
@@ -158,8 +157,7 @@ export class CallWeb2App {
 
     isIntentSupportedBrowser() {
         const ua = this.ua;
-        const supportsIntent = ua.browser.chrome && +ua.browser.version.major >= 25;
-        return supportsIntent;
+        return ua.browser.chrome && +ua.browser.version.major >= 25;
     }
 
     deferFallback(timeout: number, storeURL: string, fallback: (url: string) => void) {
@@ -206,6 +204,7 @@ export class CallWeb2App {
     }
 
     moveToStore(storeURL: string) {
-        window.top!.location.replace(storeURL);
+        // replace 대신 href 사용하여 히스토리 유지 (뒤로가기 시 청첩장 유지)
+        window.location.href = storeURL;
     }
 }
