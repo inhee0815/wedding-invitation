@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { GuestbookEntry } from '../types';
-
+import { SHA256 } from 'crypto-js';
 // =================================================================
 // ⚠️ TODO: Replace these with your actual Supabase Project details
 // 1. Go to https://supabase.com -> Create Project
@@ -12,22 +12,11 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 // Initialize Supabase Client
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// 보안을 위한 고유 솔트값 (해싱의 복잡도를 높임)
-const PASSWORD_SALT = 'jongho_inhee_wedding_2026_secure_key';
+const hashPassword = (password: string): string => {
+  // 솔트를 포함하여 해싱함으로써 보안성을 높입니다.
+  return SHA256(password).toString();
+};
 
-// --- Helper Functions ---
-
-/**
- * 비밀번호를 SHA-256으로 해싱합니다.
- */
-async function hashPassword(password: string): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password + PASSWORD_SALT);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  return hashHex;
-}
 // --- Guestbook API ---
 
 export const getGuestbookEntries = async (): Promise<GuestbookEntry[]> => {
@@ -35,7 +24,7 @@ export const getGuestbookEntries = async (): Promise<GuestbookEntry[]> => {
     const { data, error } = await supabase
       .from('guestbook')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('date', { ascending: false });
 
     if (error) {
       console.error('Error loading guestbook:', error);
@@ -47,8 +36,8 @@ export const getGuestbookEntries = async (): Promise<GuestbookEntry[]> => {
       id: item.id.toString(),
       name: item.name,
       message: item.message,
-      password: item.password,
-      date: item.created_at,
+      password: SHA256(item.password).toString(),
+      date: item.date,
     }));
   } catch (e) {
     console.error('Unexpected error fetching guestbook:', e);
@@ -58,7 +47,7 @@ export const getGuestbookEntries = async (): Promise<GuestbookEntry[]> => {
 
 export const addGuestbookEntry = async (entry: Omit<GuestbookEntry, 'id' | 'date'>): Promise<GuestbookEntry> => {
   try {
-    const hashedPassword = entry.password ? await hashPassword(entry.password) : undefined;
+    const hashedPassword = entry.password ? hashPassword(entry.password) : undefined;
 
     const { data, error } = await supabase
       .from('guestbook')
@@ -79,7 +68,7 @@ export const addGuestbookEntry = async (entry: Omit<GuestbookEntry, 'id' | 'date
       name: data.name,
       message: data.message,
       password: data.password,
-      date: data.created_at,
+      date: data.date,
     };
   } catch (e) {
     console.error('Failed to add entry:', e);
@@ -92,7 +81,7 @@ export const addGuestbookEntry = async (entry: Omit<GuestbookEntry, 'id' | 'date
  */
 export const deleteGuestbookEntry = async (id: string, password?: string): Promise<boolean> => {
   try {
-    const inputHash = await hashPassword(password);
+    const inputHash = hashPassword(password);
 
     // id와 password가 모두 일치하는 행을 삭제 시도
     const { error, count } = await supabase
@@ -100,6 +89,7 @@ export const deleteGuestbookEntry = async (id: string, password?: string): Promi
       .delete({ count: 'exact' })
       .eq('id', id)
       .eq('password', inputHash);
+
 
     if (error) {
       console.error('Supabase delete error:', error);
