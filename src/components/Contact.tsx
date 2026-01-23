@@ -112,7 +112,9 @@ const Contact: React.FC = () => {
       <div className="text-center mb-8">
         <span className="text-wood-800 text-sm tracking-widest font-cinzel font-medium border-b border-wood-300 pb-1">CONTACT</span>
         <p className="mt-4 text-stone-500 text-xs font-gothic">마음 전하실 곳</p>
-
+        <p className="mt-4 text-stone-500 text-[10px] font-gothic">참석이 어려우신 분들을 위해 기재했습니다
+          <br />
+          너른 마음으로 양해 부탁드립니다</p>
       </div>
 
       <div className="max-w-md mx-auto">
