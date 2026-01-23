@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MapPin, Navigation, Bus, Train, Car, Copy, Check } from 'lucide-react';
-import { CallWeb2App } from '../utils/callweb2app';
+import { CallWeb2App, UserAgent } from '../utils/callweb2app';
 
 declare global {
   interface Window {
@@ -16,6 +16,9 @@ const Location: React.FC = () => {
     lat: 37.4497253,
     lng: 127.127107,
   };
+
+  const ua = new UserAgent();
+  const isIos = ua.os.ios;
 
   const mapUrl = `https://map.kakao.com/link/to/${NAV_INFO.name},${NAV_INFO.lat},${NAV_INFO.lng}`;
   const address = "경기 성남시 수정구 성남대로 1342 (태평동 650)";
@@ -50,10 +53,14 @@ const Location: React.FC = () => {
         };
         break;
       case 'tmap':
+        const tmapStoreUrl = isIos
+          ? "https://apps.apple.com/kr/app/t-map-%EB%82%B4%EB%B9%84%EA%B2%8C%EC%9D%B4%EC%85%98-%EC%A7%80%EB%8F%84/id431589174"
+          : "https://play.google.com/store/apps/details?id=com.skt.tmap.ku";
+
         options = {
           scheme: `tmap://route?goalx=${lng}&goaly=${lat}&goalname=${encodedName}`,
           package: 'com.skt.tmap.ku',
-          fallbackUrl: ''
+          fallbackUrl: tmapStoreUrl
         };
         break;
       case 'naverMap':
