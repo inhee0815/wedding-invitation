@@ -2,17 +2,16 @@ CREATE TABLE IF NOT EXISTS guestbook (
   id TEXT PRIMARY KEY,
   name TEXT,
   message TEXT,
+  password TEXT,
   date TEXT
 );
-CREATE TABLE IF NOT EXISTS app_stats (
-  key TEXT PRIMARY KEY,
-  value INTEGER
-);
+CREATE TABLE IF NOT EXISTS app_stats (key TEXT PRIMARY KEY, value INTEGER);
 INSERT INTO guestbook
 VALUES (
     '1',
     '김철수',
     '결혼 진심으로 축하드립니다! 행복하세요.',
+    '1234',
     '2025-12-12'
   );
 insert into guestbook

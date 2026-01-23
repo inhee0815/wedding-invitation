@@ -12,6 +12,22 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 // Initialize Supabase Client
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// 보안을 위한 고유 솔트값 (해싱의 복잡도를 높임)
+const PASSWORD_SALT = 'jongho_inhee_wedding_2026_secure_key';
+
+// --- Helper Functions ---
+
+/**
+ * 비밀번호를 SHA-256으로 해싱합니다.
+ */
+async function hashPassword(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + PASSWORD_SALT);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashHex;
+}
 // --- Guestbook API ---
 
 export const getGuestbookEntries = async (): Promise<GuestbookEntry[]> => {
@@ -31,6 +47,7 @@ export const getGuestbookEntries = async (): Promise<GuestbookEntry[]> => {
       id: item.id.toString(),
       name: item.name,
       message: item.message,
+      password: item.password,
       date: item.created_at,
     }));
   } catch (e) {
@@ -41,12 +58,15 @@ export const getGuestbookEntries = async (): Promise<GuestbookEntry[]> => {
 
 export const addGuestbookEntry = async (entry: Omit<GuestbookEntry, 'id' | 'date'>): Promise<GuestbookEntry> => {
   try {
+    const hashedPassword = entry.password ? await hashPassword(entry.password) : undefined;
+
     const { data, error } = await supabase
       .from('guestbook')
       .insert([
         {
           name: entry.name,
-          message: entry.message
+          message: entry.message,
+          password: hashedPassword,
         }
       ])
       .select() // Select the inserted row to get the generated ID and Date
@@ -58,11 +78,39 @@ export const addGuestbookEntry = async (entry: Omit<GuestbookEntry, 'id' | 'date
       id: data.id.toString(),
       name: data.name,
       message: data.message,
+      password: data.password,
       date: data.created_at,
     };
   } catch (e) {
     console.error('Failed to add entry:', e);
     throw e;
+  }
+};
+
+/**
+ * 비밀번호를 확인하여 방명록 글을 삭제합니다.
+ */
+export const deleteGuestbookEntry = async (id: string, password?: string): Promise<boolean> => {
+  try {
+    const inputHash = await hashPassword(password);
+
+    // id와 password가 모두 일치하는 행을 삭제 시도
+    const { error, count } = await supabase
+      .from('guestbook')
+      .delete({ count: 'exact' })
+      .eq('id', id)
+      .eq('password', inputHash);
+
+    if (error) {
+      console.error('Supabase delete error:', error);
+      return false;
+    }
+
+    // 영향을 받은 행의 수가 1개 이상이면 삭제 성공
+    return count !== null && count > 0;
+  } catch (e) {
+    console.error('Unexpected error during delete:', e);
+    return false;
   }
 };
 

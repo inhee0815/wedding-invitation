@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { GuestbookEntry } from '../types';
-import { getGuestbookEntries, addGuestbookEntry } from '../services/storage';
+import { getGuestbookEntries, addGuestbookEntry, deleteGuestbookEntry } from '../services/storage';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Cloud } from 'lucide-react';
+import { ChevronDown, Cloud, X } from 'lucide-react';
 
 const Guestbook: React.FC = () => {
   const [entries, setEntries] = useState<GuestbookEntry[]>([]);
   const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,20 +34,36 @@ const Guestbook: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !message.trim()) return;
+    if (!name.trim() || !message.trim() || !password.trim()) {
+      alert("이름, 메시지, 비밀번호를 모두 입력해주세요.");
+      return;
+    }
 
     setIsSubmitting(true);
 
     try {
-      const newEntry = await addGuestbookEntry({ name, message });
+      const newEntry = await addGuestbookEntry({ name, message, password });
       setEntries([newEntry, ...entries]);
       setName('');
       setMessage('');
+      setPassword('');
     } catch (error) {
       console.error("Failed to save entry", error);
       alert("저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    const inputPwd = prompt("삭제를 원하시면 비밀번호를 입력해주세요.");
+    if (inputPwd === null) return; // 취소
+
+    const success = await deleteGuestbookEntry(id, inputPwd);
+    if (success) {
+      setEntries(entries.filter(e => e.id !== id));
+    } else {
+      alert("비밀번호가 일치하지 않거나 이미 삭제된 글입니다.");
     }
   };
 
@@ -75,14 +92,23 @@ const Guestbook: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="mb-10 bg-white p-6 rounded-lg shadow-sm border border-stone-100">
-          <div className="mb-4">
+          <div className="grid grid-cols-2 gap-4 mb-4">
             <input
               type="text"
-              placeholder="이름"
+              placeholder="이름 (Name)"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full border-b border-stone-300 py-2 px-1 font-gothic text-xs focus:outline-none focus:border-wood-800 transition-colors bg-transparent placeholder-stone-400"
+              className="w-full border-b border-stone-300 py-2 px-1 text-sm focus:outline-none focus:border-wood-800 transition-colors bg-transparent placeholder-stone-400"
               maxLength={10}
+              required
+            />
+            <input
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full border-b border-stone-300 py-2 px-1 text-sm focus:outline-none focus:border-wood-800 transition-colors bg-transparent placeholder-stone-400"
+              maxLength={4}
               required
             />
           </div>
@@ -126,13 +152,20 @@ const Guestbook: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="bg-white p-4 rounded-lg shadow-sm border border-stone-100"
+                    className="bg-white p-4 rounded-lg shadow-sm border border-stone-100 relative group overflow-hidden"
                   >
-                    <div className="flex justify-between items-baseline mb-2">
-                      <span className="font-gothic font-bold text-wood-900 text-sm">{entry.name}</span>
+                    <button
+                      onClick={() => handleDelete(entry.id)}
+                      className="absolute top-3 right-3 text-stone-300 hover:text-red-500 transition-colors p-1"
+                      title="삭제"
+                    >
+                      <X size={16} />
+                    </button>
+                    <div className="flex justify-between items-baseline mb-2 mr-8">
+                      <span className="font-bold text-wood-900 text-sm">{entry.name}</span>
                       <span className="text-[12px] text-stone-400">{formatDate(entry.date)}</span>
                     </div>
-                    <p className="text-stone-600 text-sm whitespace-pre-wrap leading-relaxed font-hand">{entry.message}</p>
+                    <p className="text-stone-600 text-sm whitespace-pre-wrap leading-relaxed font-hand pr-6">{entry.message}</p>
                   </motion.li>
                 ))}
               </AnimatePresence>
