@@ -41,9 +41,6 @@ const Location: React.FC = () => {
     const { name, encodedName, lat, lng } = NAV_INFO;
     var options: any = {};
 
-    const msg = '앱이 설치되어 있지 않은 경우\n길 안내가 실행되지 않을 수 있습니다.';
-    alert(msg);
-
     switch (type) {
       case 'kakaoNavi':
         options = {
